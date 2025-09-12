@@ -20,5 +20,9 @@
     "Zalo",
     "zingchart",
     "zustand"
-  ]
+  ],
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierPreference": "shortest",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.preferences.importModuleSpecifierPreference": "shortest"
 }
