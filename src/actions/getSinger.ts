@@ -13,6 +13,7 @@ export async function getSinger(name: string) {
       }
     })
     .then((res) => {
+      if (typeof res.data?.message === 'string') throw new Error(res.data.message);
       const data = res.data.data.map((item: any) => {
         return {
           singers: [item.name_singer],
@@ -32,8 +33,8 @@ export async function getSinger(name: string) {
       });
       return data;
     })
-    .catch((err) => {
-      if (typeof err.response.data.message === 'string') return 'Music not found';
+    .catch(() => {
+      return 'Music not found';
     });
   return response;
 }

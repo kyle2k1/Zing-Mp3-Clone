@@ -29,10 +29,11 @@ const Gallery = () => {
     <div className={cn('gap-10', className)}>
       {images.slice(0, item).map((image, idx) => (
         <div
-          key={idx + Math.random() * 10}
+          key={idx}
           className="duration-350 relative aspect-video h-40 cursor-pointer rounded-lg transition-all hover:scale-105 hover:opacity-80"
         >
           <Image
+            priority
             onClick={() => {
               setNavigation(() => router.push(`album/${idx + 1}`));
             }}
@@ -40,8 +41,8 @@ const Gallery = () => {
             alt="image"
             width={0}
             height={0}
-            fill
             sizes="100vw"
+            fill
             className="rounded-lg object-fill"
           />
         </div>

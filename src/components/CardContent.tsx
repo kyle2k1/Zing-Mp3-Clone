@@ -88,7 +88,7 @@ const CardContent: React.FC<CardContentProps> = ({
         <div className="flex gap-[1px] overflow-hidden md:flex-wrap md:overflow-visible">
           {data?.singers.map((singer, idx) => (
             <Artist
-              key={singer}
+              key={`${idx}@${singer}`}
               singer={data?.singers && idx === data.singers.length - 1 ? singer : `${singer},`}
               disabled={disabled ?? true}
             />

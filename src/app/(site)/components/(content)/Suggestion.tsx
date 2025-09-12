@@ -50,7 +50,7 @@ const Content = ({ className, thumbnails }: ContentProps) => {
           <div className="flex w-36 flex-wrap gap-[1px] md:w-40 lg:w-44 xl:w-46 2xl:w-46">
             {thumbnail.singers?.map((singer, idx) => (
               <Artist
-                key={singer}
+                key={`${idx}@${singer}`}
                 singer={idx === thumbnail.singers.length - 1 ? `${singer}...` : `${singer},`}
               />
             ))}

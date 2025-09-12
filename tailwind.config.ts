@@ -2,11 +2,11 @@
 
 module.exports = {
   content: [
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './models/**/*.{js,ts,jsx,tsx,mdx}',
-    './helpers/**/*.{js,ts,jsx,tsx,mdx}',
-    './libs/**/*.{js,ts,jsx,tsx,mdx}'
+    'src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    'src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    'src/models/**/*.{js,ts,jsx,tsx,mdx}',
+    'src/helpers/**/*.{js,ts,jsx,tsx,mdx}',
+    'src/libs/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
     extend: {
