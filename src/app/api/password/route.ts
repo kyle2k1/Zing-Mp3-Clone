@@ -2,7 +2,10 @@ import bcrypt from 'bcryptjs';
 import { NextResponse } from 'next/server';
 
 import getRandomOTP from '@/helpers/getRandomOTP';
+import logger from '@/libs/logger';
 import prisma from '@/libs/prismadb';
+
+const apiLogger = logger.scope('API:Password');
 
 export async function GET(request: Request) {
   try {
@@ -21,7 +24,7 @@ export async function GET(request: Request) {
     const OTP = getRandomOTP();
     return NextResponse.json(OTP);
   } catch (error) {
-    console.log('🚀 ~ error:', error);
+    apiLogger.error('GET error:', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 }
@@ -44,7 +47,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(user);
   } catch (error) {
-    console.log('🚀 ~ error:', error);
+    apiLogger.error('GET error:', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 }

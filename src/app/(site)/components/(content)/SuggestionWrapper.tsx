@@ -8,9 +8,13 @@ const SuggestionWrapper = async () => {
   if (!songs || songs.length === 0) {
     return null;
   }
-  console.log({ songs });
 
-  return <Suggestion songs={songs} category={randomType} />;
+  return (
+    <Suggestion
+      songs={songs}
+      category={randomType}
+    />
+  );
 };
 
 export default SuggestionWrapper;

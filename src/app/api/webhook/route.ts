@@ -9,9 +9,7 @@ import stripe from '@/libs/stripe';
 
 export async function POST(req: Request) {
   const body = await buffer(req.body as any);
-  console.log('❄️ ~ file: route.ts:10 ~ body:', body);
   const signature = req.headers.get('stripe-signature') as string;
-  console.log('❄️ ~ file: route.ts:10 ~ headers:', headers);
   if (!signature) {
     return new NextResponse('No Stripe Signature found', {
       status: 401

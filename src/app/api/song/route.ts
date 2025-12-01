@@ -2,7 +2,10 @@ import { NextResponse } from 'next/server';
 
 import getCurrentUser from '@/actions/getCurrentUser';
 import getArrSinger from '@/helpers/getArrSinger';
+import logger from '@/libs/logger';
 import prisma from '@/libs/prismadb';
+
+const apiLogger = logger.scope('API:Song');
 
 export async function GET() {
   try {
@@ -23,7 +26,7 @@ export async function GET() {
       .map((song) => ({ ...song, singers: getArrSinger(song.singers) }));
     return NextResponse.json([updated, liked]);
   } catch (error) {
-    console.log('🚀 ~ error:', error);
+    apiLogger.error('Error:', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 }
@@ -63,7 +66,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(user);
   } catch (error) {
-    console.log('🚀 ~ error:', error);
+    apiLogger.error('Error:', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 }
@@ -73,7 +76,7 @@ export async function DELETE() {
     const songs = await prisma.song.deleteMany({});
     return NextResponse.json(songs);
   } catch (error) {
-    console.log('🚀 ~ error:', error);
+    apiLogger.error('Error:', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 }

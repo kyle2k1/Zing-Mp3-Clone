@@ -10,6 +10,7 @@ import Play from '@/components/Play';
 import getDuration from '@/helpers/getDuration';
 import useFrame from '@/hooks/(player)/useFrame';
 import usePlayer from '@/hooks/(player)/usePlayer';
+import logger from '@/libs/logger';
 import useVolume from '@/hooks/(player)/useVolume';
 import { cn } from '@/libs/utils';
 
@@ -185,7 +186,7 @@ const PlayerAction = () => {
           volume={volume}
           url={currentSong?.src}
           playing={isPlaying && isFirst && !showFrame}
-          onError={(e) => console.log(e)}
+          onError={(e) => logger.error('Player error:', e)}
           onReady={onReady}
           onEnded={onEnded}
           onProgress={onProgress}

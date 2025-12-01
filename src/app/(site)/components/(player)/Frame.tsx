@@ -4,6 +4,7 @@ import ReactPlayer from 'react-player';
 import CardContent from '@/components/CardContent';
 import useFrame from '@/hooks/(player)/useFrame';
 import usePlayer from '@/hooks/(player)/usePlayer';
+import logger from '@/libs/logger';
 import { cn } from '@/libs/utils';
 
 const Frame = () => {
@@ -35,7 +36,7 @@ const Frame = () => {
               playing={showFrame}
               height="100%"
               width="100%"
-              onError={(e) => console.log(e)}
+              onError={(e) => logger.error('Frame error:', e)}
               url={`https://www.youtube.com/embed/${currentSong?.link}`}
               controls
               config={{

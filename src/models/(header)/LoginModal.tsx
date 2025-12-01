@@ -23,6 +23,7 @@ import { toast } from 'react-toastify';
 
 import useLoginModal from '@/hooks/(header)/useLoginModal';
 import { envClient } from '@/libs/env';
+import logger from '@/libs/logger';
 import { cn } from '@/libs/utils';
 
 import LoadingModal from '../(content)/LoadingModal';
@@ -306,7 +307,7 @@ const LoginModal = () => {
           });
         })
         .catch((error) => {
-          console.log(error);
+          logger.error('Registration error:', error);
           toast.error('Email or Username already exists.');
         })
         .finally(() => setLoading(false));
@@ -371,7 +372,7 @@ const LoginModal = () => {
       callbackUrl: envClient.nextauth.url,
       redirect: true // Allow redirect for OAuth flow
     }).catch((error) => {
-      console.log('🚀 ~ OAuth error:', error);
+      logger.error('OAuth error:', error);
       toast.error('Failed to sign in. Please try again.');
       setLoading(false);
     });

@@ -6,7 +6,10 @@ import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 
 import { github, google, nextauth } from '@/libs/env';
+import logger from '@/libs/logger';
 import prisma from '@/libs/prismadb';
+
+const authLogger = logger.scope('Auth');
 
 if (typeof process !== 'undefined' && process.env.NODE_ENV === 'development') {
   process.env.NEXTAUTH_URL = 'http://localhost:3000';
@@ -107,7 +110,7 @@ export const authOptions: AuthOptions = {
               }
             }
           } catch (error) {
-            console.error('Error setting username:', error);
+            authLogger.error('Error setting username:', error);
             // Don't block sign in
           }
         }
@@ -116,13 +119,10 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     async signIn({ user, account, profile }) {
-      console.log('Sign in callback');
-      console.log({ user, account, profile });
-
       // For OAuth providers, ensure email is provided
       if (account && (account.provider === 'google' || account.provider === 'github')) {
         if (!user?.email) {
-          console.error('OAuth sign in failed: No email provided');
+          authLogger.error('OAuth sign in failed: No email provided');
           return false;
         }
       }

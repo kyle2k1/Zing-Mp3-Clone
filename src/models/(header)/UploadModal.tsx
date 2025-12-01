@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 
 import getDuration from '@/helpers/getDuration';
 import useUploadModal from '@/hooks/(header)/useUploadModal';
+import logger from '@/libs/logger';
 import { cn } from '@/libs/utils';
 import LoadingModal from '@/models/(content)/LoadingModal';
 
@@ -278,7 +279,7 @@ const UploadModal = () => {
         reset();
       })
       .catch((error) => {
-        console.log(error);
+        logger.error('Upload error:', error);
         toast.error('Something went wrong');
       })
       .finally(() => {

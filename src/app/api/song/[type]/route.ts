@@ -2,8 +2,11 @@ import { NextResponse } from 'next/server';
 
 import getCurrentUser from '@/actions/getCurrentUser';
 import getArrSinger from '@/helpers/getArrSinger';
+import logger from '@/libs/logger';
 import prisma from '@/libs/prismadb';
 import { User } from '@prisma/client';
+
+const apiLogger = logger.scope('API:Song:Type');
 
 interface SongParams {
   type: string;
@@ -28,7 +31,7 @@ export async function GET(_: Request, context: { params: SongParams }) {
     }));
     return NextResponse.json(data);
   } catch (error) {
-    console.log('🚀 ~ error:', error);
+    apiLogger.error('Error:', error);
     return new NextResponse('Internal Error', { status: 500 });
   }
 }
