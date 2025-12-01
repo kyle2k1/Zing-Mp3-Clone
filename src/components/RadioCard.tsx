@@ -35,15 +35,7 @@ const CircleSlider = () => {
 };
 
 const RadioCard: React.FC<RadioCardProps> = ({ song }) => {
-  const {
-    isPlaying,
-    currentSong,
-    showPlayer,
-    setContinue,
-    setPlaying,
-    setPlaylist,
-    setShowPlayer
-  } = usePlayer();
+  const { isPlaying, currentSong, showPlayer, setContinue, setPlaying, setPlaylist, setShowPlayer } = usePlayer();
   const { setWidth } = useCircleSlider();
   const onResize = useCallback((_target: HTMLDivElement) => {
     setWidth();
@@ -53,15 +45,16 @@ const RadioCard: React.FC<RadioCardProps> = ({ song }) => {
   return (
     <div className="flex w-full flex-col gap-1">
       {/* Image */}
-      <div ref={ref} id="card" className="relative w-full rounded-full">
+      <div
+        ref={ref}
+        id="card"
+        className="relative w-full rounded-full"
+      >
         <div className="relative">
           <Card
             image={song?.image}
             btnPlay={{}}
-            className={cn(
-              'w-full',
-              song.src === currentSong?.src ? 'opacity-90 shadow-2xl shadow-[#ff4b4a]' : ''
-            )}
+            className={cn('w-full', song.src === currentSong?.src ? 'opacity-90 shadow-2xl shadow-[#ff4b4a]' : '')}
             circle
             notFit
           />
@@ -75,7 +68,7 @@ const RadioCard: React.FC<RadioCardProps> = ({ song }) => {
           <div className="flex h-full w-full items-end justify-center">
             <Image
               alt="Live"
-              src="images/sidebar/live.svg"
+              src="/images/sidebar/live.svg"
               width={38}
               height={17}
               className="absolute bottom-0 left-1/3 z-10 ml-2 hidden opacity-100 lg:inline-flex"
@@ -98,11 +91,11 @@ const RadioCard: React.FC<RadioCardProps> = ({ song }) => {
               btnPlay={{
                 show: true,
                 active: song.src === currentSong?.src,
-                isPlay: isPlaying && song.src === currentSong?.src
+                isPlay: isPlaying && song.src === currentSong?.src,
               }}
               className={cn(
                 'sha border-2 border-fuchsia-600 transition-all duration-500',
-                song.src === currentSong?.src ? 'w-14' : 'w-11'
+                song.src === currentSong?.src ? 'w-14' : 'w-11',
               )}
               circle
               notFit

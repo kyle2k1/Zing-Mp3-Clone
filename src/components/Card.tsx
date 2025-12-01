@@ -53,7 +53,7 @@ const Card: React.FC<CardProps> = ({
       >
         <Image
           alt="Image"
-          src={image || 'images/uploadSong.webp'}
+          src={image || '/images/uploadSong.webp'}
           width={0}
           height={0}
           sizes="100vw"

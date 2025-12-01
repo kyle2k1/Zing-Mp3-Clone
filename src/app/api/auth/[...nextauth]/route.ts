@@ -178,10 +178,6 @@ export const authOptions: AuthOptions = {
       return session;
     }
   },
-  debug: process.env.NODE_ENV === 'development' // Enable debug in development
-  /*   pages: {
-    signIn: '/',
-  }, */
 };
 
 const handler = NextAuth(authOptions);

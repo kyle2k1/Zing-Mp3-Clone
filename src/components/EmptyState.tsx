@@ -16,7 +16,7 @@ const EmptyState: React.FC<EmptyStateProps> = ({ text, upload, home }) => {
   return (
     <div className="justify-start10 flex h-full w-full flex-col items-center gap-2">
       <Image
-        src="images/empty.png"
+        src="/images/empty.png"
         alt="empty"
         width={0}
         height={0}

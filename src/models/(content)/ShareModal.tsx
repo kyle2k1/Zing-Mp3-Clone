@@ -103,7 +103,7 @@ const ShareModal = ({ children }: ShareModalProps) => {
                       <div className="h-4 w-4 rounded-full">
                         <Image
                           alt="Social Icon"
-                          src={option.icon || 'bmw.jpg'}
+                          src={option.icon || '/bmw.jpg'}
                           className="h-4 w-4 rounded-full bg-white"
                         />
                       </div>

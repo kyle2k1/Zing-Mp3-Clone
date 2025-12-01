@@ -59,31 +59,31 @@ const getOptions = ({ setPlaylist, setPlayNext, setPlaying, setContinue }: GetOp
           setPlaylist(song);
         }
       }
-    }
+    },
   },
   {
     icon: RiPlayListAddLine,
     label: 'Thêm vào danh sách phát',
-    action: setPlaylist
+    action: setPlaylist,
   },
   {
     icon: RiPlayListFill,
     label: 'Phát tiếp theo',
-    action: setPlayNext
+    action: setPlayNext,
   },
 
   {
     icon: RiLinksLine,
     label: 'Sao chép link',
-    copy: true
-  }
+    copy: true,
+  },
 ];
 
 const RankingModal = ({ children, image, like, song }: RankingModalProps) => {
   const size = useWindowSize();
   const [position, setPosition] = useState<PositionProps>({
     height: 0,
-    width: 0
+    width: 0,
   });
   const className = getPosition(position);
   const { setPlayNext, setPlaylist, setPlaying, setContinue, currentSong } = usePlayer();
@@ -91,7 +91,7 @@ const RankingModal = ({ children, image, like, song }: RankingModalProps) => {
     setPlayNext,
     setPlaylist,
     setPlaying,
-    setContinue
+    setContinue,
   });
 
   return (
@@ -135,7 +135,7 @@ const RankingModal = ({ children, image, like, song }: RankingModalProps) => {
                           width={0}
                           height={0}
                           sizes="100vw"
-                          src={image || 'bmw.jpg'}
+                          src={image || '/bmw.jpg'}
                           className="h-9 w-9 rounded-lg object-contain"
                         />
                       </div>

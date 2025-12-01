@@ -59,7 +59,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentUser, children }) => {
           height={0}
           width={0}
           alt="Logo"
-          src={condition('images/sidebar/logo.svg', 'images/sidebar/logo_mobile.svg') || ''}
+          src={condition('/images/sidebar/logo.svg', '/images/sidebar/logo_mobile.svg') || ''}
           className={cn(
             condition('', 'aspect-square'),
             condition('w-28', 'w-10'),
@@ -106,7 +106,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentUser, children }) => {
                 height={0}
                 width={0}
                 alt="Logo"
-                src={condition('images/sidebar/logo.svg', 'images/sidebar/logo_mobile.svg') || ''}
+                src={condition('/images/sidebar/logo.svg', '/images/sidebar/logo_mobile.svg') || ''}
                 className={cn(
                   condition('', 'aspect-square'),
                   condition('w-28', 'w-10'),
