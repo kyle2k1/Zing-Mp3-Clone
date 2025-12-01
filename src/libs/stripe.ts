@@ -1,6 +1,8 @@
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_API_KEY, {
+import { stripe as stripeConfig } from './env';
+
+const stripe = new Stripe(stripeConfig.apiKey, {
   // @ts-ignore
   apiVersion: '2022-11-15',
   typescript: true

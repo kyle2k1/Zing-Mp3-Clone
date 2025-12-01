@@ -3,7 +3,7 @@ import { Body, Container, Head, Heading, Html, Img, Tailwind, Text } from '@reac
 const LOGO_URL =
   'https://raw.githubusercontent.com/bmo4401/sharing-image/24c12892643f585dbd22d5b525c4f94ddccb6a6f/bmo1.png';
 
-const template = (OTP: number) => {
+const template = (otp: number) => {
   return (
     <Html>
       <Tailwind>
@@ -18,7 +18,7 @@ const template = (OTP: number) => {
               Enter the following code to verify your identity.
             </Heading>
             <Text className="mb-6 w-full rounded-md bg-gray-100 py-6 text-center text-4xl font-bold tracking-wide text-gray-800">
-              {OTP}
+              {otp}
             </Text>
             <Text className="text-center text-base font-normal leading-6 text-gray-600">
               If you did not request this code, please disregard this message.

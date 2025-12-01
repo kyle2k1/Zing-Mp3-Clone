@@ -16,11 +16,9 @@ const ZingChart = () => {
     setMounted(true);
   }, []);
   const { showPlayer } = usePlayer();
-  const { data, fetchNextPage, isLoading, isFetching, status, isFetchingNextPage } = UseQueryScroll(
-    {
-      slug: slugs[0]
-    }
-  );
+  const { data, fetchNextPage, isLoading, isFetching, isFetchingNextPage } = UseQueryScroll({
+    slug: slugs[0]
+  });
 
   const root = useRef<ElementRef<'div'>>(null);
 

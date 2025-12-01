@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { BsChevronRight, BsThreeDots } from 'react-icons/bs';
 import { Tab } from '@headlessui/react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { BsChevronRight, BsThreeDots } from 'react-icons/bs';
 
 import { typeMusic } from '@/actions/getSongs';
 import RankingCard from '@/components/RankingCard';

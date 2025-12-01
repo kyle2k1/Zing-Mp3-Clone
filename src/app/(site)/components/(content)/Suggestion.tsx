@@ -2,8 +2,8 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import { typeMusic } from '@/actions/getSongs';
 import Artist from '@/components/Artist';

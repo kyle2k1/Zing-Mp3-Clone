@@ -1,7 +1,7 @@
+import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs';
 import { MdPlayCircleOutline } from 'react-icons/md';
-import { usePathname } from 'next/navigation';
 
 const useRoutes = () => {
   const pathname = usePathname();

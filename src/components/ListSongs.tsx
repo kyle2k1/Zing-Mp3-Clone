@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { toast } from 'react-toastify';
 import { User } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import useUploadModal from '@/hooks/(header)/useUploadModal';
 import usePlayer from '@/hooks/(player)/usePlayer';

@@ -1,8 +1,8 @@
 'use client';
 
-import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import { User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
+import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 
 import Download from '@/app/(site)/components/(header)/Download';
 import Search from '@/app/(site)/components/(header)/Search';

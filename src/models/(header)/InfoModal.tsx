@@ -1,9 +1,9 @@
 'use client';
 
-import { Fragment } from 'react';
-import { IconType } from 'react-icons';
 import { Dialog, Transition } from '@headlessui/react';
 import Image from 'next/image';
+import { Fragment } from 'react';
+import { IconType } from 'react-icons';
 
 interface InfoModalProps {
   isOpenModal: boolean;

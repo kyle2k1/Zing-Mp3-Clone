@@ -1,13 +1,10 @@
-/* eslint-disable indent */
-/* eslint-disable implicit-arrow-linebreak */
-/* eslint-disable no-unused-expressions */
 import { create } from 'zustand';
 
 import { Song } from '@/types/types';
 
-enum TYPE {
-  PREV = -1,
-  NEXT = 1
+enum Type {
+  Prev = -1,
+  Next = 1
 }
 
 interface PlayerProps {
@@ -41,14 +38,14 @@ interface PlayerProps {
   setFirst: (value: boolean) => void;
 }
 
-type setProps = (
+type SetProps = (
   partial:
     | PlayerProps
     | Partial<PlayerProps>
     | ((state: PlayerProps) => PlayerProps | Partial<PlayerProps>),
   replace?: boolean | undefined
 ) => void;
-type getProps = () => PlayerProps;
+type GetProps = () => PlayerProps;
 
 function getIndexSong(currentSong: Song | undefined, list: Song[]) {
   return list.findIndex((prev) => prev.src === currentSong?.src);
@@ -68,8 +65,8 @@ function getSong(state: PlayerProps, type: number) {
         song = list[idx];
       } else {
         idx = getIndexSong(currentSong, list);
-        if (idx === 0 && type === TYPE.PREV) song = list[list.length + type];
-        else if (idx === list.length - 1 && type === TYPE.NEXT) {
+        if (idx === 0 && type === Type.Prev) song = list[list.length + type];
+        else if (idx === list.length - 1 && type === Type.Next) {
           [song] = list;
         } else song = list[idx + type];
       }
@@ -94,7 +91,11 @@ function getSong(state: PlayerProps, type: number) {
 
 function update(list: Song[], src: string, updatedSong: Song) {
   let data = list.filter((song) => song.src !== src);
-  data.length === list.length ? data.push(updatedSong) : (data = list);
+  if (data.length === list.length) {
+    data.push(updatedSong);
+  } else {
+    data = list;
+  }
   return data;
 }
 
@@ -123,7 +124,7 @@ const initialState = {
   isLoop: false
 };
 
-const action = (set: setProps, get: getProps) => ({
+const action = (set: SetProps, get: GetProps) => ({
   /* action */
 
   setShowPlayer: (value: boolean) => set({ showPlayer: value }),
@@ -148,16 +149,20 @@ const action = (set: setProps, get: getProps) => ({
     })),
 
   setPrev: () => {
-    (set((state) => ({
-      currentSong: getSong(state, TYPE.PREV)
-    })),
-      !get().isPlaying && get().setPlaying(get().currentSong, true));
+    set((state) => ({
+      currentSong: getSong(state, Type.Prev)
+    }));
+    if (!get().isPlaying) {
+      get().setPlaying(get().currentSong, true);
+    }
   },
   setNext: () => {
-    (set((state) => ({
-      currentSong: getSong(state, TYPE.NEXT)
-    })),
-      !get().isPlaying && get().setPlaying(get().currentSong, true));
+    set((state) => ({
+      currentSong: getSong(state, Type.Next)
+    }));
+    if (!get().isPlaying) {
+      get().setPlaying(get().currentSong, true);
+    }
   },
   setClear: () =>
     set({

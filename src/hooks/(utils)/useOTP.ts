@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 
 interface OTPProps {
-  OTP: number;
+  otp: number;
   setOTP: (value: number) => void;
 }
 const useOTP = create<OTPProps>((set) => ({
-  OTP: -1,
-  setOTP: (value: number) => set({ OTP: value })
+  otp: -1,
+  setOTP: (value: number) => set({ otp: value })
 }));
 
 export default useOTP;

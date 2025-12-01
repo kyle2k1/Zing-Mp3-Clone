@@ -2,8 +2,8 @@
 
 'use client';
 
-import { Fragment, JSX, useState } from 'react';
 import { Popover, Switch, Transition } from '@headlessui/react';
+import { Fragment, JSX, useState } from 'react';
 
 import usePopup from '@/hooks/(utils)/usePopup';
 import { cn } from '@/libs/utils';
@@ -19,7 +19,7 @@ const RadioBox = ({ data, div: DivFragment }: { data: string; div?: () => JSX.El
       <li className="w-full dark:border-gray-600">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <label id="list-radio-license">{data}</label>
+            <label htmlFor="list-radio-license">{data}</label>
             {DivFragment && <DivFragment />}
           </div>
           <div className="w-3">

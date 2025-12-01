@@ -1,16 +1,15 @@
 'use client';
 
+import Image, { StaticImageData } from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { IconType } from 'react-icons/lib';
 import { toast } from 'react-toastify';
-import Image, { StaticImageData } from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
 
+import { text } from '@/app/(site)/components/(header)/ActiveAvatar';
 import useSidebar from '@/hooks/(sidebar)/useSidebar';
 import useNavigation from '@/hooks/(utils)/useNavigation';
 import { cn } from '@/libs/utils';
-
-import { text } from '../(header)/ActiveAvatar';
 
 interface BoxProps {
   data: {
@@ -37,10 +36,7 @@ const Box: React.FC<BoxProps> = ({ data, item: display }) => {
     classNameTrue: string | StaticImageData | boolean,
     classNameFalse: string | StaticImageData | boolean
   ) => {
-    if (display === 2) {
-      return classNameTrue;
-    }
-    if (showSidebar) {
+    if (display === 2 || showSidebar) {
       return classNameTrue;
     }
     return classNameFalse;

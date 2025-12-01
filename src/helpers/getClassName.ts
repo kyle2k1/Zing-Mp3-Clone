@@ -1,4 +1,4 @@
-const getClassName = (breakpoints: Array<object>) => {
+const getClassName = (breakpoints: Array<{ [key: string]: number }>) => {
   const className = `grid ${breakpoints
     .map((name) => {
       return `${

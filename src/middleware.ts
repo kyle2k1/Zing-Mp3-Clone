@@ -1,23 +1,25 @@
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import { withAuth } from 'next-auth/middleware';
+import { NextResponse } from 'next/server';
 
-export default async function middleware(req: NextRequest, event: NextFetchEvent) {
-  const token = await getToken({ req });
-  const isAuthenticated = !!token;
+import { nextauth } from '@/libs/env';
 
-  if (req.nextUrl.pathname.startsWith('/mymusic') && !isAuthenticated) {
-    return NextResponse.redirect(new URL(process.env.NEXTAUTH_URL));
-  }
-  const authMiddleware = await withAuth({
-    pages: {
-      signIn: '/login'
+export default withAuth(
+  async function middleware(req) {
+    const token = await getToken({ req });
+    const isAuthenticated = !!token;
+
+    // Redirect unauthenticated users from /mymusic routes
+    if (req.nextUrl.pathname.startsWith('/mymusic') && !isAuthenticated) {
+      return NextResponse.redirect(new URL(nextauth.url));
     }
-  });
-
-  // @ts-expect-error
-  return authMiddleware(req, event);
-}
+  },
+  {
+    pages: {
+      signIn: '/' // Redirect to home page (login modal will be shown)
+    }
+  }
+);
 
 export const config = {
   matcher: ['/mymusic/uploaded']

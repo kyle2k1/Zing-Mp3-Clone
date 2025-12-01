@@ -1,9 +1,9 @@
 'use client';
 
-import { Fragment } from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { User } from '@prisma/client';
 import Image from 'next/image';
+import { Fragment } from 'react';
 
 import ActiveAvatar from '@/app/(site)/components/(header)/ActiveAvatar';
 import InActiveAvatar from '@/app/(site)/components/(header)/InActiveAvatar';

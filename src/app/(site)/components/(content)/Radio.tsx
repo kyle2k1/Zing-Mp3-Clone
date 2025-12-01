@@ -1,8 +1,6 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
-import { useRouter } from 'next/navigation';
 
 import { typeMusic } from '@/actions/getSongs';
 import RadioCard from '@/components/RadioCard';
@@ -86,9 +84,7 @@ const Radio = () => {
     if (data) {
       setList(data as Song[]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, data]);
-  const router = useRouter();
 
   return (
     <div id="radio" className="flex flex-col gap-y-5">

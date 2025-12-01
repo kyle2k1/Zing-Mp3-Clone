@@ -1,8 +1,9 @@
+import { buffer } from 'node:stream/consumers';
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
-import { buffer } from 'node:stream/consumers';
 import Stripe from 'stripe';
 
+import { stripe as stripeConfig } from '@/libs/env';
 import prisma from '@/libs/prismadb';
 import stripe from '@/libs/stripe';
 
@@ -19,7 +20,7 @@ export async function POST(req: Request) {
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET!);
+    event = stripe.webhooks.constructEvent(body, signature, stripeConfig.webhookSecret);
   } catch (error: any) {
     return new NextResponse(`Webhook Error: ${error.message}`, {
       status: 400

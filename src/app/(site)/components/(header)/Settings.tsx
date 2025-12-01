@@ -1,5 +1,7 @@
 'use client';
 
+import { Popover, Transition } from '@headlessui/react';
+import Link from 'next/link';
 import { Fragment, useState } from 'react';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
 import { BsChevronRight } from 'react-icons/bs';
@@ -9,8 +11,6 @@ import { HiOutlineArrowUpRight, HiOutlineShieldCheck } from 'react-icons/hi2';
 import { LuPaintbrush2, LuPhone } from 'react-icons/lu';
 import { RiAdvertisementFill } from 'react-icons/ri';
 import { VscPlayCircle } from 'react-icons/vsc';
-import { Popover, Transition } from '@headlessui/react';
-import Link from 'next/link';
 
 import InfoModal from '@/models/(header)/InfoModal';
 import InterfaceModal from '@/models/(header)/InterfaceModal';
@@ -120,9 +120,8 @@ const Settings = () => {
                   <hr className="m-2 mx-[10px] h-[2px] bg-contentDesc opacity-50" />
                   {/* Info */}
                   {settingsInfo.map((setting) => (
-                    <>
+                    <Fragment key={setting.label}>
                       <InfoModal
-                        key={setting.label + Math.random() * 10}
                         data={{
                           data: setting.data,
                           icon: setting.secondary
@@ -147,7 +146,7 @@ const Settings = () => {
                           <span>{setting.label}</span>
                         </div>
                       </div>
-                    </>
+                    </Fragment>
                   ))}
                   {/* Contact */}
                   {settingsContact.map((setting) => (

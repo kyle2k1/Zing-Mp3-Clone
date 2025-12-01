@@ -2,11 +2,11 @@
 
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { AiOutlineRise } from 'react-icons/ai';
 import { BiLoaderCircle } from 'react-icons/bi';
 import { IoSearchOutline } from 'react-icons/io5';
-import { useQueryClient } from '@tanstack/react-query';
 
 import CardContent from '@/components/CardContent';
 import useInput from '@/hooks/(data)/useInput';
@@ -17,7 +17,7 @@ import { cn } from '@/libs/utils';
 import { artist } from '@/store/queryKeys';
 import { Song } from '@/types/types';
 
-interface SearchProps {}
+type SearchProps = {};
 
 function Suggestions() {
   const suggestions = [

@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 import getArrSinger from '@/helpers/getArrSinger';
+import { api } from '@/libs/env';
 import { Song } from '@/types/types';
 
-const url = process.env.NEXT_PUBLIC_API_URL;
+const url = api.url;
 const songsLimit = 25;
 
 /* export const params = {
@@ -47,7 +48,7 @@ export async function getSongsByType(type: string, limit?: number) {
       });
       return data;
     })
-    .catch((err) => {
+    .catch((_err) => {
       ('Something went wrong');
     });
   return response;
@@ -82,12 +83,12 @@ export async function getSongsByWordSearch(query: string) {
       });
       return data;
     })
-    .catch((err) => 'Something went wrong');
+    .catch((_err) => 'Something went wrong');
   return response;
 }
 
 export type Slug = '/trending' | '/favorite' | '/new-music' | '/top-views';
-interface getSongsProps {
+interface GetSongsProps {
   slug: Slug;
   params?: {
     _limit?: number;
@@ -99,8 +100,8 @@ interface getSongsProps {
 
 export const LIMIT = 10;
 
-const getInfiniteSongs = async ({ pageParam = 1, slug }: getSongsProps) => {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/music${slug}`;
+const getInfiniteSongs = async ({ pageParam = 1, slug }: GetSongsProps) => {
+  const url = `${api.url}/music${slug}`;
   const response = await axios
     .get(url, {
       params: {
@@ -131,7 +132,7 @@ const getInfiniteSongs = async ({ pageParam = 1, slug }: getSongsProps) => {
       });
       return data;
     })
-    .catch((err) => {
+    .catch((_err) => {
       ('Something went wrong');
     });
   return response;

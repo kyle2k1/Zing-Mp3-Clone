@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { BsChevronLeft } from 'react-icons/bs';
 import { User } from '@prisma/client';
 import axios from 'axios';
 import Image, { StaticImageData } from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { BsChevronLeft } from 'react-icons/bs';
 
 import getBreakpoint from '@/helpers/getBreakpoint';
 import useLoginModal from '@/hooks/(header)/useLoginModal';
@@ -26,7 +26,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ currentUser, children }) => {
   const router = useRouter();
   const routes = useRoutes();
-  const { showSidebar, setShowSidebar } = useSidebar();
+  const { showSidebar } = useSidebar();
   const breakpoints = getBreakpoint([1, 1, 1, 2, 2, 2]);
   const item = useBreakpoint(breakpoints);
   const dataHome = routes.slice(0, 4);
@@ -87,7 +87,9 @@ const Sidebar: React.FC<SidebarProps> = ({ currentUser, children }) => {
           <div
             onClick={() => {
               setNavigation(() => router.push('/'));
-              if (show) setShow(false);
+              if (show) {
+                setShow(false);
+              }
             }}
             className={cn(
               'h-sidebarHeight cursor-pointer hover:opacity-90',

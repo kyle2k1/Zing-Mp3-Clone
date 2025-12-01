@@ -1,10 +1,8 @@
-// @ts-nocheck
-
 'use client';
 
-import { Fragment, useState } from 'react';
 import { Popover, Transition } from '@headlessui/react';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
+import { Fragment, useState } from 'react';
 
 import getPosition from '@/helpers/getPosition';
 import usePopup from '@/hooks/(utils)/usePopup';
@@ -36,7 +34,7 @@ export interface ShareModalProps {
 }
 
 interface OptionsProps {
-  icon: StaticImageData;
+  icon: string;
   label: string;
 }
 
@@ -83,7 +81,7 @@ const ShareModal = ({ children }: ShareModalProps) => {
           >
             <Popover.Panel
               static
-              onMouseEnter={(e) => {
+              onMouseEnter={() => {
                 onOpen(open);
               }}
               onMouseLeave={() => {

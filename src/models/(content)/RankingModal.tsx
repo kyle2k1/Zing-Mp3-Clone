@@ -1,5 +1,8 @@
 'use client';
 
+import { Popover, Transition } from '@headlessui/react';
+import Image, { StaticImageData } from 'next/image';
+import Link from 'next/link';
 import { Fragment, useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { IconType } from 'react-icons';
@@ -9,9 +12,6 @@ import { BsDownload, BsMic } from 'react-icons/bs';
 import { RiLinksLine, RiPlayListAddLine, RiPlayListFill } from 'react-icons/ri';
 import { SlEarphones } from 'react-icons/sl';
 import { toast } from 'react-toastify';
-import { Popover, Transition } from '@headlessui/react';
-import Image, { StaticImageData } from 'next/image';
-import Link from 'next/link';
 
 import { text } from '@/app/(site)/components/(header)/ActiveAvatar';
 import getPosition from '@/helpers/getPosition';
@@ -32,7 +32,7 @@ interface RankingModalProps {
   song?: Song;
 }
 
-interface getOptionsProps {
+interface GetOptionsProps {
   setPlayNext?: (song: Song) => void;
   setPlaylist: (song: Song) => void;
   setPlaying: (song: Song) => void;
@@ -46,7 +46,7 @@ interface OptionsProps {
   copy?: boolean;
 }
 
-const getOptions = ({ setPlaylist, setPlayNext, setPlaying, setContinue }: getOptionsProps) => [
+const getOptions = ({ setPlaylist, setPlayNext, setPlaying, setContinue }: GetOptionsProps) => [
   {
     icon: AiOutlineHeart,
     label: 'Trình phát nhạc',

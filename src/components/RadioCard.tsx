@@ -1,9 +1,9 @@
 'use client';
 
-import { useCallback } from 'react';
 // @ts-ignore
 import CircularSlider from '@fseehawer/react-circular-slider';
 import Image from 'next/image';
+import { useCallback } from 'react';
 
 import useCircleSlider from '@/hooks/(content)/useCircleSlider';
 import usePlayer from '@/hooks/(player)/usePlayer';

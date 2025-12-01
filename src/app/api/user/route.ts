@@ -36,7 +36,7 @@ export async function POST(request: Request) {
   }
 }
 
-export async function DELETE(request: Request) {
+export async function DELETE(_: Request) {
   try {
     const currentUser = await getCurrentUser();
     const songs = await prisma.user.update({

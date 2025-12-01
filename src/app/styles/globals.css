@@ -42,7 +42,7 @@ body,
 input[type='range']:hover::-webkit-slider-thumb {
    background-color: red;
 } */
-input[type='range'] {
+input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   border-radius: 0.5rem;
@@ -51,14 +51,14 @@ input[type='range'] {
   background-repeat: no-repeat;
 }
 
-input[type='range']::-webkit-slider-runnable-track {
+input[type="range"]::-webkit-slider-runnable-track {
   -webkit-appearance: none;
   box-shadow: none;
   border: none;
   background: transparent;
 }
 
-input[type='range']::-webkit-slider-thumb {
+input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
   margin-top: -0.1rem; /* Centers thumb on the track */
   background-color: white;
@@ -68,10 +68,10 @@ input[type='range']::-webkit-slider-thumb {
   border: none;
   display: none;
 }
-input[type='range']:hover::-webkit-slider-thumb {
+input[type="range"]:hover::-webkit-slider-thumb {
   display: block;
 }
-input[type='range']::-webkit-slider-thumb:hover {
+input[type="range"]::-webkit-slider-thumb:hover {
   box-shadow: #ffffff60 0px 0px 0px 5px;
 }
 

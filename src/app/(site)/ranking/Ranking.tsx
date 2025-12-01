@@ -16,7 +16,7 @@ const Ranking = () => {
   const data = queryClient.getQueryData<Song[]>(ranking.rankings());
   let lists;
   if (data) {
-    lists = Array.from({ length: 3 }).map((x, idx) => data.slice(idx * 8, idx * 8 + 8));
+    lists = Array.from({ length: 3 }).map((_, idx) => data.slice(idx * 8, idx * 8 + 8));
   }
 
   return (

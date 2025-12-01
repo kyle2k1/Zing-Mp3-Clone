@@ -1,12 +1,12 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { AiOutlineDownload } from 'react-icons/ai';
 import { GoTrash } from 'react-icons/go';
 import { ImFilm } from 'react-icons/im';
 import { LuVolume2, LuVolumeX } from 'react-icons/lu';
 import { RiPlayListFill } from 'react-icons/ri';
-import Link from 'next/link';
 
 import Options from '@/components/Options';
 import useFrame from '@/hooks/(player)/useFrame';

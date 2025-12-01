@@ -1,22 +1,24 @@
 import { render } from '@react-email/render';
 import nodemailer from 'nodemailer';
 
+import { email } from '@/libs/env';
+
 import template from './template';
 
-const transporter = async (userEmail: string, OTP: number) => {
-  const html = await render(template(OTP), { pretty: true });
+const transporter = async (userEmail: string, otp: number) => {
+  const html = await render(template(otp), { pretty: true });
   const nodeConfig = {
     port: 587,
     host: 'smtp.ethereal.email',
     service: 'gmail',
     secure: false,
     auth: {
-      user: process.env.EMAIL_ADDRESS,
-      pass: process.env.EMAIL_PASSWORD
+      user: email.address,
+      pass: email.password
     }
   };
   const message = {
-    from: process.env.EMAIL_ADDRESS,
+    from: email.address,
     to: userEmail,
     subject: 'Signup Successful',
     text: 'Hello',

@@ -1,17 +1,18 @@
 'use client';
 
+import { User } from '@prisma/client';
+import axios from 'axios';
+import { signOut } from 'next-auth/react';
+import { CldUploadWidget } from 'next-cloudinary';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { GoDownload, GoSignOut } from 'react-icons/go';
 import { IoBanOutline } from 'react-icons/io5';
 import { toast } from 'react-toastify';
-import { User } from '@prisma/client';
-import axios from 'axios';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { signOut } from 'next-auth/react';
-import { CldUploadWidget } from 'next-cloudinary';
 
 import useUploadModal from '@/hooks/(header)/useUploadModal';
+import { envClient } from '@/libs/env';
 import { cn } from '@/libs/utils';
 import LoadingModal from '@/models/(content)/LoadingModal';
 
@@ -146,7 +147,7 @@ const ActiveAvatar: React.FC<ActiveAvatarProps> = ({ currentUser }) => {
         <hr className="border-settingsFocus px-1" />
         {/* // Part 3 */}
         <div
-          onClick={() => signOut({ redirect: true, callbackUrl: process.env.NEXTAUTH_URL })}
+          onClick={() => signOut({ redirect: true, callbackUrl: envClient.nextauth.url })}
           className="flex w-full cursor-pointer items-center gap-2 rounded-full p-2 hover:bg-settingsFocus"
         >
           {' '}

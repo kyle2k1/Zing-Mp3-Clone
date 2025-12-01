@@ -6,7 +6,7 @@ import OptionContent from '@/components/OptionContent';
 import Play from '@/components/Play';
 import usePlayer from '@/hooks/(player)/usePlayer';
 
-interface LibraryCardProps {}
+type LibraryCardProps = {};
 const LibraryCard: React.FC<LibraryCardProps> = () => {
   const { isPlaying, currentSong, setContinue } = usePlayer();
   return (

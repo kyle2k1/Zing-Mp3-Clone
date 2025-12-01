@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import { User } from '@prisma/client';
+import { useEffect, useRef, useState } from 'react';
 
 import usePlayer from '@/hooks/(player)/usePlayer';
 import { useInView } from '@/hooks/(utils)/useInView';

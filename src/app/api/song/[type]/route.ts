@@ -1,15 +1,20 @@
-// @ts-nocheck
 import { NextResponse } from 'next/server';
 
 import getCurrentUser from '@/actions/getCurrentUser';
 import getArrSinger from '@/helpers/getArrSinger';
 import prisma from '@/libs/prismadb';
+import { User } from '@prisma/client';
 
-export async function GET(request: Request, response: Response) {
+interface SongParams {
+  type: string;
+}
+
+export async function GET(_: Request, context: { params: SongParams }) {
   try {
-    const type = response?.params?.type;
+    const { type } = context.params;
     const currentUser = await getCurrentUser();
-    const array = currentUser[type];
+    if (!currentUser) throw new Error('Unauthorized');
+    const array = currentUser[type as keyof User];
     const typeQuery = type === 'liked' ? 'src' : 'id';
     const songs = await prisma.song.findMany({
       where: {

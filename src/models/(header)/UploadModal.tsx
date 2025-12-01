@@ -1,16 +1,16 @@
 'use client';
 
+import { Dialog, Listbox, Transition } from '@headlessui/react';
+import axios from 'axios';
+import { CldUploadWidget } from 'next-cloudinary';
+import Image, { StaticImageData } from 'next/image';
 import { Dispatch, Fragment, SetStateAction, useCallback, useState } from 'react';
-import { FieldErrors, FieldValues, SubmitHandler, useForm, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, FieldValues, SubmitHandler, UseFormRegister, useForm } from 'react-hook-form';
 import { GoUpload } from 'react-icons/go';
 import { HiCheck, HiChevronUpDown } from 'react-icons/hi2';
 import { ImCheckmark } from 'react-icons/im';
 import { TfiClose } from 'react-icons/tfi';
 import { toast } from 'react-toastify';
-import { Dialog, Listbox, Transition } from '@headlessui/react';
-import axios from 'axios';
-import Image, { StaticImageData } from 'next/image';
-import { CldUploadWidget } from 'next-cloudinary';
 
 import getDuration from '@/helpers/getDuration';
 import useUploadModal from '@/hooks/(header)/useUploadModal';
@@ -205,11 +205,9 @@ const Click = ({
         onClick={() => {
           if (type === 'submit') {
             if (onSubmit) onSubmit();
-          } else {
-            if (reset && onClose) {
-              reset();
-              onClose(false);
-            }
+          } else if (reset && onClose) {
+            reset();
+            onClose(false);
           }
         }}
         className="flex w-full items-center justify-center rounded-full bg-fuchsia-600 px-4 py-2 text-center font-medium tracking-wide text-white hover:opacity-80 focus:outline-none"

@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 
-interface windowSizeProps {
+interface WindowSizeProps {
   width: number;
   height: number;
 }
 
 function CheckingBreakpoint(
   windowSize: { width: number; height: number },
-  breakpoints: Array<NonNullable<unknown>>
+  breakpoints: NonNullable<unknown>[]
 ) {
-  const _breakpoints = [
+  const Breakpoints = [
     { xs: 500 },
     { sm: 640 },
     { md: 768 },
@@ -20,7 +20,7 @@ function CheckingBreakpoint(
   for (let i = breakpoints.length - 1; i >= 0; i--) {
     // @ts-ignore
 
-    const width = _breakpoints[i][Object.keys(breakpoints[i])[0]];
+    const width = Breakpoints[i][Object.keys(breakpoints[i])[0]];
     if (windowSize.width > width) return Object.values(breakpoints[i])[0] as number;
   }
   return 1;
@@ -28,7 +28,7 @@ function CheckingBreakpoint(
 
 const useBreakpoint = (breakpoints: object[]) => {
   const [breakpoint, setBreakPoint] = useState<number>(0);
-  const [windowSize, setWindowSize] = useState<windowSizeProps>({
+  const [windowSize, setWindowSize] = useState<WindowSizeProps>({
     width: 0,
     height: 0
   });

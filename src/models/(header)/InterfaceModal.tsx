@@ -1,8 +1,8 @@
 'use client';
 
+import { Popover, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { BsChevronRight } from 'react-icons/bs';
-import { Popover, Transition } from '@headlessui/react';
 
 import usePopup from '@/hooks/(utils)/usePopup';
 

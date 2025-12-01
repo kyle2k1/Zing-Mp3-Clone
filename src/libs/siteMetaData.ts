@@ -1,3 +1,5 @@
+import { nextauth } from './env';
+
 const siteMetadata = ({ title, description }: { title: string; description: string }) => {
   return {
     title,
@@ -6,7 +8,7 @@ const siteMetadata = ({ title, description }: { title: string; description: stri
     description,
     language: 'vi-ve',
     theme: 'system', // system, dark or light
-    siteUrl: process.env.NEXTAUTH_URL, // your website URL
+    siteUrl: nextauth.url, // your website URL
     siteLogo: '/logo.png',
     socialBanner: '/banner.png', // add social banner in the public folder
     email: 'haiminh612a@gmail.com',

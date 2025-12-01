@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import Image, { StaticImageData } from 'next/image';
+import { useState } from 'react';
 
 import usePlayer from '@/hooks/(player)/usePlayer';
 import { cn } from '@/libs/utils';

@@ -28,7 +28,6 @@ const CardContent: React.FC<CardContentProps> = ({
   className,
   classNameTitle,
   play,
-  isStop,
   disabled,
   pass,
   nowrap,

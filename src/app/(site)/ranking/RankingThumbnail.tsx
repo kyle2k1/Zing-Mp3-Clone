@@ -9,13 +9,7 @@ interface RankingThumbnailProps {
   song: Song | undefined;
 }
 const RankingThumbnail: React.FC<RankingThumbnailProps> = ({ song }) => {
-  const {
-    setPlaying,
-
-    isPlaying,
-    currentSong,
-    setContinue
-  } = usePlayer();
+  const { isPlaying, setContinue } = usePlayer();
   return (
     /* Card */
     <div className="flex gap-4 lg:w-64 lg:flex-col">

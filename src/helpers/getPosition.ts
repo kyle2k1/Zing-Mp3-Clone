@@ -12,12 +12,10 @@ const getPosition = ({ width, height }: { width: number; height: number }) => {
     } else {
       pos = '-left-1 bottom-0 -translate-x-full';
     }
+  } else if (height < 50) {
+    pos = '-left-1 top-0 -translate-x-full';
   } else {
-    if (height < 50) {
-      pos = '-left-1 top-0 -translate-x-full';
-    } else {
-      pos = '-left-1 -bottom-20 -translate-x-full';
-    }
+    pos = '-left-1 -bottom-20 -translate-x-full';
   }
   return pos;
 };

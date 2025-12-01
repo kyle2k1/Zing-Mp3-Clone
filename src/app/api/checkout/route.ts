@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+import { nextauth } from '@/libs/env';
 import stripe from '@/libs/stripe';
 
 const corsHeaders = {
@@ -8,12 +9,13 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization'
 };
 
-export async function OPTIONS(req: Request, res: Response) {
+export async function OPTIONS(_req: Request, _res: Response) {
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
-export async function POST(req: Request, res: Response) {
+export async function POST(_req: Request, _res: Response) {
   const session = await stripe.checkout.sessions.create({
+    // biome-ignore lint/style/useNamingConvention: Stripe API requires snake_case
     line_items: [
       {
         price: 'price_1NskQnF8nm8tvbVtwq48ZguX',
@@ -21,8 +23,10 @@ export async function POST(req: Request, res: Response) {
       }
     ],
     mode: 'payment',
-    success_url: process.env.NEXTAUTH_URL,
-    cancel_url: process.env.NEXTAUTH_URL
+    // biome-ignore lint/style/useNamingConvention: Stripe API requires snake_case
+    success_url: nextauth.url,
+    // biome-ignore lint/style/useNamingConvention: Stripe API requires snake_case
+    cancel_url: nextauth.url
   });
   return NextResponse.json(
     { url: session.url },

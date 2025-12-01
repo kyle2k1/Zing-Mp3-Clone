@@ -7,7 +7,7 @@ import { cn } from '@/libs/utils';
 
 interface NextArrowProps {
   props?: CustomArrowProps;
-  breakpoints: Array<object>;
+  breakpoints: object[];
   customClassName?: string;
 }
 const NextArrow: React.FC<NextArrowProps> = (props) => {

@@ -2,8 +2,8 @@
 
 'use client';
 
-import { Fragment, useState } from 'react';
 import { Popover, Transition } from '@headlessui/react';
+import { Fragment, useState } from 'react';
 
 import getPosition from '@/helpers/getPosition';
 import usePopup from '@/hooks/(utils)/usePopup';
@@ -90,7 +90,7 @@ const SongDetailModal = ({ children }: SongDetailModalProps) => {
           >
             <Popover.Panel
               static
-              onMouseEnter={(e) => {
+              onMouseEnter={(_e) => {
                 onOpen(open);
               }}
               onMouseLeave={() => {

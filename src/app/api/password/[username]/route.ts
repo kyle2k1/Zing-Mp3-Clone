@@ -4,10 +4,13 @@ import transporter from '@/helpers/(sendMail)/sendMail';
 import getRandomOTP from '@/helpers/getRandomOTP';
 import prisma from '@/libs/prismadb';
 
-export async function GET(request: Request, response: Response) {
+interface PasswordParams {
+  username: string;
+}
+
+export async function GET(_: Request, context: { params: PasswordParams }) {
   try {
-    const { searchParams } = new URL(request.url);
-    const username = searchParams.get('username');
+    const { username } = context.params;
     if (!username) return new NextResponse('Missing info', { status: 400 });
 
     const user = await prisma.user.findUnique({

@@ -17,9 +17,9 @@ export const useInView = (target: Target, options: Options) => {
     };
     observer?.disconnect();
     if (target.current) {
-      const _observer = new IntersectionObserver(callback, options);
-      _observer.observe(target.current);
-      setObserver(_observer);
+      const Observer = new IntersectionObserver(callback, options);
+      Observer.observe(target.current);
+      setObserver(Observer);
     }
 
     /* disconnect listening */

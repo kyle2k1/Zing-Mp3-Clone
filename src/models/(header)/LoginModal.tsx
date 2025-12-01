@@ -1,27 +1,28 @@
 'use client';
 
+import { Dialog, Transition } from '@headlessui/react';
+import axios from 'axios';
+import { signIn } from 'next-auth/react';
+import { CldUploadWidget } from 'next-cloudinary';
+import Image, { StaticImageData } from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Dispatch, Fragment, SetStateAction, useCallback, useState } from 'react';
 import {
   FieldErrors,
   FieldValues,
   RegisterOptions,
   SubmitHandler,
-  useForm,
-  UseFormRegister
+  UseFormRegister,
+  useForm
 } from 'react-hook-form';
 import { BsGithub } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { PiEyeClosed, PiEyeLight } from 'react-icons/pi';
 import { TfiClose } from 'react-icons/tfi';
 import { toast } from 'react-toastify';
-import { Dialog, Transition } from '@headlessui/react';
-import axios from 'axios';
-import Image, { StaticImageData } from 'next/image';
-import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
-import { CldUploadWidget } from 'next-cloudinary';
 
 import useLoginModal from '@/hooks/(header)/useLoginModal';
+import { envClient } from '@/libs/env';
 import { cn } from '@/libs/utils';
 
 import LoadingModal from '../(content)/LoadingModal';
@@ -97,19 +98,19 @@ const Input: React.FC<FormProps> = ({
   );
 };
 
-const Social = ({ SocialAction }: { SocialAction: (value: string) => void }) => {
+const Social = ({ socialAction }: { socialAction: (value: string) => void }) => {
   return (
     <div className="flex items-center gap-2">
       <h2 className="text-base font-semibold leading-6 tracking-wider text-gray-900">with</h2>
       <div
-        onClick={() => SocialAction('google')}
+        onClick={() => socialAction('google')}
         className="w-6 cursor-pointer rounded-full shadow-lg transition ease-in-out hover:scale-110"
       >
         {' '}
         <FcGoogle size={24} />
       </div>
       <div
-        onClick={() => SocialAction('github')}
+        onClick={() => socialAction('github')}
         className="w-6 cursor-pointer rounded-full shadow-lg transition ease-in-out hover:scale-110"
       >
         {' '}
@@ -336,7 +337,7 @@ const LoginModal = () => {
         .finally(() => setLoading(false));
     }
     if (step === 'OTP') {
-      if (otp !== parseInt(data.otp, 10)) {
+      if (otp !== Number.parseInt(data.otp, 10)) {
         toast.error('Incorrect OTP.');
         setLoading(false);
         return;
@@ -364,20 +365,18 @@ const LoginModal = () => {
 
   const SocialAction = (action: string) => {
     setLoading(true);
-    signIn(action, { redirect: false, callbackUrl: process.env.NEXTAUTH_URL })
-      .then((callback) => {
-        if (callback?.error) {
-          toast.error('Invalid information');
-        }
-        if (callback?.ok && !callback?.error) {
-          toast.success('Logged in!');
-          setShowLoginModal(false);
-        }
-      })
-      .catch((error) => {
-        console.log('🚀 ~ error:', error);
-      })
-      .finally(() => setLoading(false));
+    // For OAuth providers, we need to allow redirect (don't use redirect: false)
+    // The redirect will go to the OAuth provider, then back to our callback
+    signIn(action, {
+      callbackUrl: envClient.nextauth.url,
+      redirect: true // Allow redirect for OAuth flow
+    }).catch((error) => {
+      console.log('🚀 ~ OAuth error:', error);
+      toast.error('Failed to sign in. Please try again.');
+      setLoading(false);
+    });
+    // Note: If redirect is true, the promise may not resolve as expected
+    // The redirect will happen automatically
   };
   return (
     <>
@@ -443,7 +442,7 @@ const LoginModal = () => {
                         {step === 'OTP' && 'Verify OTP'}
                         {step === 'RESET' && 'New password'}
                       </Dialog.Title>
-                      {step === 'LOGIN' && <Social SocialAction={SocialAction} />}
+                      {step === 'LOGIN' && <Social socialAction={SocialAction} />}
                     </div>
                     {/* //Content */}
                     <div className="flex flex-col gap-3">

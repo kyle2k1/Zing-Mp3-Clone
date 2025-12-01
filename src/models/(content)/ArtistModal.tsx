@@ -1,9 +1,9 @@
 'use client';
 
-import { Fragment, useCallback, useState } from 'react';
-import { AiOutlineUserAdd } from 'react-icons/ai';
 import { Popover, Transition } from '@headlessui/react';
 import truncate from 'lodash.truncate';
+import { Fragment, useCallback, useState } from 'react';
+import { AiOutlineUserAdd } from 'react-icons/ai';
 
 import Card from '@/components/Card';
 import getPosition from '@/helpers/getPosition';
@@ -82,7 +82,7 @@ const ArtistModal = ({ children, singer }: ArtistPopupProps) => {
             >
               <div className="relative h-full shadow-lg ring-1 ring-black ring-opacity-5">
                 <div
-                  onMouseEnter={(e) => {
+                  onMouseEnter={(_e) => {
                     onOpen(open);
                   }}
                   onMouseLeave={() => {
@@ -103,7 +103,7 @@ const ArtistModal = ({ children, singer }: ArtistPopupProps) => {
                       <div className="flex flex-col gap-1">
                         <span className="text-xds font-bold text-white">{singer}</span>
                         <span className="text-xx text-contentDesc">
-                          {(artist && artist[0]?.favorites) || '(Empty)'}
+                          {artist?.[0]?.favorites || '(Empty)'}
                         </span>
                       </div>
                     </div>
@@ -133,7 +133,7 @@ const ArtistModal = ({ children, singer }: ArtistPopupProps) => {
                     <h2 className="text-xds font-bold text-white">Mới nhất</h2>
                     <div className="flex gap-3">
                       {artist ? (
-                        artist?.slice(0, artist?.length).map((song, index) => (
+                        artist?.slice(0, artist?.length).map((song, _index) => (
                           <div className="w-16" key={song.link}>
                             <Card
                               onClick={(e) => {

@@ -68,7 +68,7 @@ export async function POST(request: Request) {
   }
 }
 
-export async function DELETE(request: Request) {
+export async function DELETE() {
   try {
     const songs = await prisma.song.deleteMany({});
     return NextResponse.json(songs);

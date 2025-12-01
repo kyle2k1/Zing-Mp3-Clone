@@ -1,5 +1,6 @@
 'use client';
 
+import { Popover, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { IconType } from 'react-icons';
 import { AiOutlineHeart } from 'react-icons/ai';
@@ -11,7 +12,6 @@ import {
   RiPlayListFill,
   RiShareForwardLine
 } from 'react-icons/ri';
-import { Popover, Transition } from '@headlessui/react';
 
 import getPosition from '@/helpers/getPosition';
 import useWindowSize from '@/hooks/(utils)/useWindowSize';

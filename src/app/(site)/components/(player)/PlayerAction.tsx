@@ -82,7 +82,6 @@ const PlayerAction = () => {
       backgroundSize: `${ref?.current ? seconds * 100 : '0'}% 100%`
     };
   };
-  const disabled = typeRepeat === 0;
   useEffect(() => {
     if (typeRepeat === 1) setLoop(true);
     else setLoop(false);
@@ -106,6 +105,20 @@ const PlayerAction = () => {
   };
   const onPlay = () => {
     setContinue();
+  };
+  const onReady = () => {
+    setLoad(false);
+    if (!isFirst) {
+      setFirst(true);
+    }
+  };
+  const onEnded = () => {
+    if (!loop) {
+      setContinue(false);
+    }
+  };
+  const onDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    ref?.current?.seekTo(Number.parseFloat(e.target.value));
   };
   const actions = options({
     onPrev,
@@ -173,13 +186,8 @@ const PlayerAction = () => {
           url={currentSong?.src}
           playing={isPlaying && isFirst && !showFrame}
           onError={(e) => console.log(e)}
-          onReady={() => {
-            setLoad(false);
-            if (!isFirst) setFirst(true);
-          }}
-          onEnded={() => {
-            if (!loop) setContinue(false);
-          }}
+          onReady={onReady}
+          onEnded={onEnded}
           onProgress={onProgress}
           config={{ file: { forceAudio: true } }}
           style={{ display: 'none' }}
@@ -194,7 +202,7 @@ const PlayerAction = () => {
             max={1}
             value={seconds}
             onMouseDown={() => setSeeking(true)}
-            onChange={(e) => ref?.current?.seekTo(parseFloat(e.target.value))}
+            onChange={onDurationChange}
             onMouseUp={() => setSeeking(false)}
             className="h-[3px] w-full cursor-pointer bg-contentDesc transition"
             style={getBackgroundSize()}

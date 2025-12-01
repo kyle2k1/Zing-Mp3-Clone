@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const url = process.env.NEXT_PUBLIC_API_URL;
+import { api } from '@/libs/env';
+
+const url = api.url;
 const singerLimit = 5;
 
 export async function getSinger(name: string) {

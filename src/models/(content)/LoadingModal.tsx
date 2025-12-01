@@ -1,7 +1,7 @@
 'use client';
 
-import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 
 const LoadingModal = ({
   show = true,
@@ -12,7 +12,7 @@ const LoadingModal = ({
 }) => {
   return (
     <Transition appear show={show} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={() => setShow && setShow(false)}>
+      <Dialog as="div" className="relative z-10" onClose={() => setShow?.(false)}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
