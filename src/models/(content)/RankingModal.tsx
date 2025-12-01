@@ -27,7 +27,7 @@ interface PositionProps {
 }
 interface RankingModalProps {
   children: React.ReactNode;
-  image?: StaticImageData;
+  image?: string;
   like?: string | number;
   song?: Song;
 }
@@ -59,31 +59,31 @@ const getOptions = ({ setPlaylist, setPlayNext, setPlaying, setContinue }: GetOp
           setPlaylist(song);
         }
       }
-    }
+    },
   },
   {
     icon: RiPlayListAddLine,
     label: 'Thêm vào danh sách phát',
-    action: setPlaylist
+    action: setPlaylist,
   },
   {
     icon: RiPlayListFill,
     label: 'Phát tiếp theo',
-    action: setPlayNext
+    action: setPlayNext,
   },
 
   {
     icon: RiLinksLine,
     label: 'Sao chép link',
-    copy: true
-  }
+    copy: true,
+  },
 ];
 
 const RankingModal = ({ children, image, like, song }: RankingModalProps) => {
   const size = useWindowSize();
   const [position, setPosition] = useState<PositionProps>({
     height: 0,
-    width: 0
+    width: 0,
   });
   const className = getPosition(position);
   const { setPlayNext, setPlaylist, setPlaying, setContinue, currentSong } = usePlayer();
@@ -91,7 +91,7 @@ const RankingModal = ({ children, image, like, song }: RankingModalProps) => {
     setPlayNext,
     setPlaylist,
     setPlaying,
-    setContinue
+    setContinue,
   });
 
   return (
