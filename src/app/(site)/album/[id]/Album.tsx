@@ -27,14 +27,17 @@ const Album: React.FC<AlbumProps> = ({ params }) => {
           className={cn(
             'gap-10 overflow-hidden overflow-y-auto px-12 pt-8 lg:flex',
             showPlayer ? 'h-[calc(100vh-70px)]' : 'h-screen',
-            showPlayer ? 'pb-24' : 'pb-20'
+            showPlayer ? 'pb-24' : 'pb-20',
           )}
         >
           <AlbumCard
             thumbnails={data?.thumbnails}
-            active={data?.data.includes(data?.thumbnails?.song)}
+            active={data?.data?.some((song) => song.src === data?.thumbnails?.song?.src)}
           />
-          <ListSongs data={data?.data} className="h-fit w-full" />
+          <ListSongs
+            data={data?.data}
+            className="h-fit w-full"
+          />
         </div>
       </section>
     </>

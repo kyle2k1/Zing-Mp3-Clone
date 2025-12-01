@@ -1,5 +1,6 @@
 'use client';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
 import Artist from '@/components/Artist';
@@ -12,17 +13,19 @@ import useBreakpoint from '@/hooks/(utils)/useBreakpoint';
 import useNavigation from '@/hooks/(utils)/useNavigation';
 import { cn } from '@/libs/utils';
 import { favorite } from '@/store/queryKeys';
-import { Song, Thumbnail } from '@/types/types';
+import { List, Song, Thumbnail } from '@/types/types';
 
 interface ContentProps {
   className: string;
   thumbnails: Thumbnail[] | undefined;
+  songsData: Song[] | undefined;
 }
 
-const Content = ({ className, thumbnails }: ContentProps) => {
+const Content = ({ className, thumbnails, songsData }: ContentProps & { songsData: Song[] | undefined }) => {
   const { showPlayer, setShowPlayer, setPlaying, setPlaylist } = usePlayer();
   const router = useRouter();
   const { setNavigation } = useNavigation();
+  const queryClient = useQueryClient();
 
   return (
     <div className={cn(className)}>
@@ -30,6 +33,14 @@ const Content = ({ className, thumbnails }: ContentProps) => {
         <div key={thumbnail.favorites}>
           <Card
             onClick={() => {
+              // Transform data to List format and store in cache
+              if (songsData) {
+                const albumData: List = {
+                  data: songsData,
+                  thumbnails: thumbnail,
+                };
+                queryClient.setQueryData<List>(favorite.favorite(index + 1), albumData);
+              }
               setNavigation(() => router.push(`album/${index + 1}`));
               setPlaying(thumbnail.song);
               setPlaylist(thumbnail.song);
@@ -64,7 +75,7 @@ const Suggestion = ({ songs, category }: { songs: Song[]; category: string }) =>
   const { data } = useSong({
     key: favorite.favorites(),
     type: category,
-    initialData: songs
+    initialData: songs,
   });
   // Use data from React Query, fallback to songs prop if data is not ready yet
   const songsData = data || songs;
@@ -74,7 +85,7 @@ const Suggestion = ({ songs, category }: { songs: Song[]; category: string }) =>
       title: song.songName,
       singers: song.singers,
       song: song,
-      favorites: song.favorites
+      favorites: song.favorites,
     };
   });
   return (
@@ -82,7 +93,11 @@ const Suggestion = ({ songs, category }: { songs: Song[]; category: string }) =>
       <div className="flex justify-between">
         <h2 className="text-lg font-bold text-white">Có thể bạn muốn nghe</h2>
       </div>
-      <Content className={className} thumbnails={thumbnails} />
+      <Content
+        className={className}
+        songsData={songsData}
+        thumbnails={thumbnails}
+      />
     </div>
   );
 };
