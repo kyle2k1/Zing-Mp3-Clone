@@ -1,4 +1,4 @@
-const getBreakpoint = (breakpoints: NonNullable<unknown>[]) => {
+const getBreakpoint = (breakpoints: Array<number>) => {
   const type = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
   return breakpoints.map((breakpoint, idx) => {
     return { [type[idx]]: breakpoint };
