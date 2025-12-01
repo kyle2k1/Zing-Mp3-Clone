@@ -23,13 +23,13 @@ function Suggestions() {
   const suggestions = [
     {
       icon: AiOutlineRise,
-      label: 'có ai hẹn hò cùng em chưa',
+      label: 'có ai hẹn hò cùng em chưa'
     },
     { icon: AiOutlineRise, label: 'mưa tháng sáu' },
     { icon: AiOutlineRise, label: 'cô ấy của anh ấy' },
     { icon: AiOutlineRise, label: 'ngày mai người ta lấy chồng' },
     { icon: AiOutlineRise, label: 'kẻ viết ngôn tình' },
-    { icon: AiOutlineRise, label: 'hoa cỏ lau' },
+    { icon: AiOutlineRise, label: 'hoa cỏ lau' }
   ];
   return suggestions.map((suggestion) => (
     <div
@@ -45,8 +45,12 @@ function Suggestions() {
   ));
 }
 
-function Songs({ songs, setShowSearch }: { songs: Song[]; setShowSearch: (value: boolean) => void }) {
-  const { showPlayer, setShowPlayer, setPlaying, setPlaylist, currentSong, setContinue } = usePlayer();
+function Songs({
+  songs,
+  setShowSearch
+}: { songs: Song[]; setShowSearch: (value: boolean) => void }) {
+  const { showPlayer, setShowPlayer, setPlaying, setPlaylist, currentSong, setContinue } =
+    usePlayer();
   return songs.map((song) => (
     <div
       key={song.src}
@@ -67,43 +71,34 @@ function Songs({ songs, setShowSearch }: { songs: Song[]; setShowSearch: (value:
       }}
       className="w- flex cursor-pointer items-center gap-2 rounded-md px-[10px] py-[8px] hover:bg-[#493961]"
     >
-      <CardContent
-        play
-        data={song}
-        width="w-12"
-        height="h-12"
-        disabled
-        nowrap
-      />
+      <CardContent play data={song} width="w-12" height="h-12" disabled nowrap />
     </div>
   ));
 }
 const Result = ({
   songs,
   showSearch,
-  setShowSearch,
+  setShowSearch
 }: {
   songs: Song[] | undefined;
   showSearch: boolean;
   setShowSearch: (value: boolean) => void;
 }) => {
   return (
-    <div className={cn('w-full overflow-hidden px-[13px] py-[10px] transition delay-150 duration-150')}>
+    <div
+      className={cn('w-full overflow-hidden px-[13px] py-[10px] transition delay-150 duration-150')}
+    >
       <div className={cn('flex flex-col overflow-hidden text-sm', showSearch ? '' : 'h-0 w-0')}>
-        <label
-          htmlFor="search-input"
-          className="pb-2 text-xds font-bold text-white"
-        >
+        <label htmlFor="search-input" className="pb-2 text-xds font-bold text-white">
           Đề xuất cho bạn
         </label>
         <div className="g-3 flex max-h-96 flex-col overflow-hidden overflow-y-auto text-white">
           {typeof songs === 'string' || songs?.length === 0 ? (
-            <h2 className="pb-2 text-xds text-[#dadada]">Please try a different search keyword...</h2>
+            <h2 className="pb-2 text-xds text-[#dadada]">
+              Please try a different search keyword...
+            </h2>
           ) : songs ? (
-            <Songs
-              songs={songs}
-              setShowSearch={setShowSearch}
-            />
+            <Songs songs={songs} setShowSearch={setShowSearch} />
           ) : (
             <Suggestions />
           )}
@@ -130,7 +125,7 @@ const Search: React.FC<SearchProps> = () => {
     <div
       className={cn(
         'relative h-9 rounded-full bg-search sm:w-60 md:w-80 lg:w-90 xl:w-100',
-        showSearch ? 'fixed top-[15px] w-72' : 'w-40',
+        showSearch ? 'fixed top-[15px] w-72' : 'w-40'
       )}
     >
       <div
@@ -138,7 +133,7 @@ const Search: React.FC<SearchProps> = () => {
           'absolute w-full',
           showSearch && 'bg-searchFocus',
           showSearch ? 'h-auto' : 'h-9',
-          showSearch && 'rounded-2xl',
+          showSearch && 'rounded-2xl'
         )}
       >
         {/* /// Layout */}
@@ -154,10 +149,14 @@ const Search: React.FC<SearchProps> = () => {
             <div
               className={cn(
                 'text absolute left-2 top-0 flex h-9 w-9 items-center justify-center',
-                isLoading && showSearch && 'animate-spin duration-150',
+                isLoading && showSearch && 'animate-spin duration-150'
               )}
             >
-              {isLoading && showSearch ? <BiLoaderCircle size={25} /> : <IoSearchOutline size={25} />}
+              {isLoading && showSearch ? (
+                <BiLoaderCircle size={25} />
+              ) : (
+                <IoSearchOutline size={25} />
+              )}
             </div>
             <div className="h-9 w-full pl-10 pr-8">
               <form className="h-9' flex w-full items-center pl-2">
@@ -173,18 +172,14 @@ const Search: React.FC<SearchProps> = () => {
                   placeholder="Tìm kiếm bài hát, nghệ sĩ, lời bài hát..."
                   className={cn(
                     's h-9 w-full text-xds placeholder:text-xds placeholder:text-contentDesc/25 focus:outline-none',
-                    showSearch ? 'bg-[#27193B]' : 'bg-search',
+                    showSearch ? 'bg-[#27193B]' : 'bg-search'
                   )}
                   aria-labelledby="search-input-label"
                 />
               </form>
             </div>
           </div>
-          <Result
-            songs={songs}
-            showSearch={showSearch}
-            setShowSearch={setShowSearch}
-          />
+          <Result songs={songs} showSearch={showSearch} setShowSearch={setShowSearch} />
         </div>
       </div>
     </div>

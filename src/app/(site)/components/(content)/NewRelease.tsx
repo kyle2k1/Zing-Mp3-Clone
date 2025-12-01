@@ -30,7 +30,7 @@ const RankingTabs = ({ songs }: { songs: Song[] }) => {
     key: ranking.rankings(),
     type: songs[0]?.category || randomType,
     limit: item * 4 * 3,
-    initialData: songs,
+    initialData: songs
   });
   const { currentSong } = usePlayer();
   const active = 'bg-login focus:outline-none';
@@ -39,7 +39,11 @@ const RankingTabs = ({ songs }: { songs: Song[] }) => {
   const lists = useMemo(() => {
     if (!data) return undefined;
     const chunkSize = 4 * item;
-    return [data.slice(0, chunkSize), data.slice(chunkSize, chunkSize * 2), data.slice(chunkSize * 2, chunkSize * 3)];
+    return [
+      data.slice(0, chunkSize),
+      data.slice(chunkSize, chunkSize * 2),
+      data.slice(chunkSize * 2, chunkSize * 3)
+    ];
   }, [data, item]);
 
   if (!lists) return null;
@@ -57,7 +61,7 @@ const RankingTabs = ({ songs }: { songs: Song[] }) => {
                     className={({ selected }) => {
                       return cn(
                         'flex h-6 w-18 items-center justify-center rounded-full border border-slate-100/10 text-xxx font-medium sm:w-20 sm:text-xs',
-                        selected && active,
+                        selected && active
                       );
                     }}
                   >
@@ -78,10 +82,7 @@ const RankingTabs = ({ songs }: { songs: Song[] }) => {
         <Tab.Panels>
           {lists.map((list, index) => {
             return (
-              <Tab.Panel
-                key={index}
-                className={cn('py-4', className)}
-              >
+              <Tab.Panel key={index} className={cn('py-4', className)}>
                 {list?.map((song) => (
                   <div key={song.src}>
                     <RankingCard
