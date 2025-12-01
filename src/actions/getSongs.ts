@@ -1,146 +1,88 @@
-import axios from 'axios';
-
-import getArrSinger from '@/helpers/getArrSinger';
-import { api } from '@/libs/env';
+'use server';
+import { Slug } from '@/constants/music';
+import apiClient, { transformSongItem, handleApiError, type ApiSongItem } from '@/libs/apiClient';
 import { Song } from '@/types/types';
 
-const url = api.url;
-const songsLimit = 25;
+/** Lesson learn
+ - Without 'use server'
+ 1. Server component calls: work (already on server).
+ 2. Client component calls: fail (can't access server-only env vars)
+ 
+ - With 'use server':
+ 1. Server component calls: work (Server Actions can be called from server components)
+ 2. Client component calls: work (Server Actions run on the server)
+ */
+const SONGS_LIMIT = 25;
 
-/* export const params = {
-   trending: 'trending',
-   favorite: 'favorite',
-   newMusic: 'new-music',
-   topViews: 'top-views',
-}; */
-export const typeMusic = ['trending', 'favorite', 'new-music', 'top-views'];
-
-export async function getSongsByType(type: string, limit?: number) {
+export async function getSongsByType(type: string, limit?: number): Promise<Song[] | null> {
   try {
-    const baseURL = `${url}/music/${type}`;
-    const response = await axios
-      .get(baseURL, {
-        params: {
-          _limit: limit || songsLimit,
-          _page: Math.round(Math.random() * 10)
-        }
-      })
-      .then((res) => {
-        if (res.data.data.length === 0) {
-          return null;
-        }
-        const data: Song[] = res.data.data.map((item: any) => {
-          return {
-            singers: getArrSinger(item.name_singer),
-            songName: item.name_music,
-            category: item.category,
-            src: item.src_music,
-            image: item.image_music,
-            duration: item.time_format,
-            link: item.link_mv,
-            favorites:
-              item.favorite < 999
-                ? item.favorite
-                : item.favorite < 1000000
-                  ? `${Math.floor(item.favorite / 1000)}K`
-                  : `${Math.floor(item.favorite / 1000000)}M`
-          };
-        });
-        return data;
-      })
-      .catch((err) => {
-        console.log('🚀 --> err:', err);
-        throw new Error(err.response.data.message);
-      });
-    return response;
+    const response = await apiClient.get<{ data: ApiSongItem[] }>(`/music/${type}`, {
+      params: {
+        _limit: limit || SONGS_LIMIT,
+        _page: Math.round(Math.random() * 10)
+      }
+    });
+
+    if (!response.data?.data || response.data.data.length === 0) {
+      return null;
+    }
+
+    return response.data.data.map((item) => transformSongItem(item));
   } catch (error) {
-    console.log(`Error getting songs by type: ${error}`);
+    handleApiError(error);
     return null;
   }
 }
 
-export async function getSongsByWordSearch(query: string) {
-  const baseURL = `${url}/search`;
-  const response = await axios
-    .get(baseURL, {
+export async function getSongsByWordSearch(query: string): Promise<Song[] | null> {
+  try {
+    const response = await apiClient.get<{ data: ApiSongItem[] }>('/search', {
       params: {
         query,
         _limit: 10
       }
-    })
-    .then((res) => {
-      const data: Song = res.data.data.map((item: any) => {
-        return {
-          singers: item.name_singer.split(/,|ft.| x /).map((name: string) => name.trim()),
-          songName: item.name_music,
-          category: item.category,
-          src: item.src_music,
-          image: item.image_music,
-          duration: item.time_format,
-          link: item.link_mv,
-          favorites:
-            item.favorite < 999
-              ? item.favorite
-              : item.favorite < 1000000
-                ? `${Math.floor(item.favorite / 1000)}K`
-                : `${Math.floor(item.favorite / 1000000)}M`
-        };
-      });
-      return data;
-    })
-    .catch((_err) => 'Something went wrong');
-  return response;
+    });
+
+    if (!response.data?.data || response.data.data.length === 0) {
+      return null;
+    }
+
+    // Search results use a different singer parsing (split by comma/ft/x)
+    const parseSearchSingers = (value: string) => {
+      return value.split(/,|ft.| x /).map((name: string) => name.trim());
+    };
+
+    return response.data.data.map((item) => transformSongItem(item, parseSearchSingers));
+  } catch (error) {
+    handleApiError(error);
+    return null;
+  }
 }
 
-export type Slug = '/trending' | '/favorite' | '/new-music' | '/top-views';
-interface GetSongsProps {
+const INFINITE_SCROLL_LIMIT = 10;
+
+export async function getInfiniteSongs({
+  pageParam = 1,
+  slug
+}: {
   slug: Slug;
-  params?: {
-    _limit?: number;
-    _page?: number;
-    _type?: 'million' | 'billion';
-  };
   pageParam: number;
-}
-
-export const LIMIT = 10;
-
-const getInfiniteSongs = async ({ pageParam = 1, slug }: GetSongsProps) => {
-  const url = `${api.url}/music${slug}`;
-  const response = await axios
-    .get(url, {
+}): Promise<Song[] | undefined> {
+  try {
+    const response = await apiClient.get<{ data: ApiSongItem[] }>(`/music${slug}`, {
       params: {
-        _limit: LIMIT,
+        _limit: INFINITE_SCROLL_LIMIT,
         _page: pageParam
       }
-    })
-    .then((res) => {
-      if (res.data.data.length === 0) {
-        return;
-      }
-      const data: Song[] = res.data.data.map((item: any) => {
-        return {
-          singers: getArrSinger(item.name_singer),
-          songName: item.name_music,
-          category: item.category,
-          src: item.src_music,
-          image: item.image_music,
-          duration: item.time_format,
-          link: item.link_mv,
-          favorites:
-            item.favorite < 999
-              ? item.favorite
-              : item.favorite < 1000000
-                ? `${Math.floor(item.favorite / 1000)}K`
-                : `${Math.floor(item.favorite / 1000000)}M`
-        };
-      });
-      return data;
-    })
-    .catch((_err) => {
-      ('Something went wrong');
     });
-  return response;
-};
 
-export default getInfiniteSongs;
+    if (!response.data?.data || response.data.data.length === 0) {
+      return undefined;
+    }
+
+    return response.data.data.map((item) => transformSongItem(item));
+  } catch (error) {
+    handleApiError(error);
+    return undefined;
+  }
+}

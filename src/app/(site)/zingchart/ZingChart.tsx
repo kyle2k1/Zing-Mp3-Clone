@@ -2,8 +2,8 @@
 
 import { ElementRef, useEffect, useRef, useState } from 'react';
 
-import { Slug } from '@/actions/getSongs';
 import InfinitePage from '@/components/InfinitePage';
+import { Slug } from '@/constants/music';
 import UseQueryScroll from '@/hooks/(data)/useQueryScroll';
 import usePlayer from '@/hooks/(player)/usePlayer';
 import { cn } from '@/libs/utils';

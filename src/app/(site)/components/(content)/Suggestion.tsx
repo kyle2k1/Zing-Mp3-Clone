@@ -55,18 +55,20 @@ const Content = ({ className, thumbnails }: ContentProps) => {
   );
 };
 
-const title = 'Có thể bạn muốn nghe';
-const Suggestion = ({ songs }: { songs: Song[] }) => {
+const Suggestion = ({ songs, category }: { songs: Song[]; category: string }) => {
   const breakpoints = getBreakpoint([1, 2, 3, 4, 5, 5]);
   const className = getClassName(breakpoints);
   const item = useBreakpoint(breakpoints);
+
   /* React query */
   const { data } = useSong({
     key: favorite.favorites(),
-    type: songs[0].category,
+    type: category,
     initialData: songs
   });
-  const thumbnails = data?.slice(0, item).map((song) => {
+  // Use data from React Query, fallback to songs prop if data is not ready yet
+  const songsData = data || songs;
+  const thumbnails = songsData?.slice(0, item).map((song) => {
     return {
       image: song.image,
       title: song.songName,
@@ -78,8 +80,7 @@ const Suggestion = ({ songs }: { songs: Song[] }) => {
   return (
     <div className="flex flex-col gap-y-5">
       <div className="flex justify-between">
-        {' '}
-        <h2 className="text-lg font-bold text-white">{title}</h2>
+        <h2 className="text-lg font-bold text-white">Có thể bạn muốn nghe</h2>
       </div>
       <Content className={className} thumbnails={thumbnails} />
     </div>

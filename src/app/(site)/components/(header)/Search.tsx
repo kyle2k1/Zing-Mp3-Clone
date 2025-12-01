@@ -1,20 +1,16 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-
 'use client';
 
-import { useQueryClient } from '@tanstack/react-query';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { AiOutlineRise } from 'react-icons/ai';
 import { BiLoaderCircle } from 'react-icons/bi';
 import { IoSearchOutline } from 'react-icons/io5';
 
 import CardContent from '@/components/CardContent';
-import useInput from '@/hooks/(data)/useInput';
+import useSearchSong from '@/hooks/(data)/useSearchSong';
 import useSearch from '@/hooks/(header)/useSearch';
 import usePlayer from '@/hooks/(player)/usePlayer';
 import useDebounce from '@/hooks/(utils)/useDebounce';
 import { cn } from '@/libs/utils';
-import { artist } from '@/store/queryKeys';
 import { Song } from '@/types/types';
 
 type SearchProps = {};
@@ -109,18 +105,16 @@ const Result = ({
 };
 
 const Search: React.FC<SearchProps> = () => {
-  const queryClient = useQueryClient();
-  const [songs, setSongs] = useState<Song[] | undefined>(undefined);
-  const [value, setValue] = useState<string | undefined>(undefined);
-  const debounce = useDebounce(value, 500);
-  const { isLoading, data } = useInput(artist.artist(debounce?.trim()));
+  const [value, setValue] = useState('');
+  const debouncedValue = useDebounce(value.trim(), 500);
   const { showSearch, setShowSearch } = useSearch();
+
+  const { data, isFetching } = useSearchSong(debouncedValue);
+  const songs = data && Array.isArray(data) ? data : undefined;
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
-  useEffect(() => {
-    setSongs(queryClient.getQueryData(artist.artist(debounce)));
-  }, [debounce, data, queryClient]);
+
   return (
     <div
       className={cn(
@@ -149,17 +143,17 @@ const Search: React.FC<SearchProps> = () => {
             <div
               className={cn(
                 'text absolute left-2 top-0 flex h-9 w-9 items-center justify-center',
-                isLoading && showSearch && 'animate-spin duration-150'
+                isFetching && showSearch && 'animate-spin duration-150'
               )}
             >
-              {isLoading && showSearch ? (
+              {isFetching && showSearch ? (
                 <BiLoaderCircle size={25} />
               ) : (
                 <IoSearchOutline size={25} />
               )}
             </div>
             <div className="h-9 w-full pl-10 pr-8">
-              <form className="h-9' flex w-full items-center pl-2">
+              <form className="h-9 flex w-full items-center pl-2">
                 <input
                   autoComplete="off"
                   id="search-input"
@@ -167,7 +161,7 @@ const Search: React.FC<SearchProps> = () => {
                     e.stopPropagation();
                     setShowSearch(true);
                   }}
-                  onChange={(e) => onChange(e)}
+                  onChange={onChange}
                   type="text"
                   placeholder="Tìm kiếm bài hát, nghệ sĩ, lời bài hát..."
                   className={cn(

@@ -1,12 +1,10 @@
 'use client';
-import Slider from 'react-slick';
-
-import { typeMusic } from '@/actions/getSongs';
 import RadioCard from '@/components/RadioCard';
 import getBreakpoint from '@/helpers/getBreakpoint';
 import useSong from '@/hooks/(data)/useSong';
 import { radio } from '@/store/queryKeys';
 import { Song } from '@/types/types';
+import Slider from 'react-slick';
 
 import NextArrow from './NextArrow';
 import PrevArrow from './PrevArrow';
@@ -75,11 +73,10 @@ const settings = {
   ]
 };
 
-const Radio = ({ songs }: { songs: Song[] }) => {
-  const randomType = typeMusic[Math.round(Math.random() * 3)];
+const Radio = ({ songs, category }: { songs: Song[]; category: string }) => {
   const { data } = useSong({
     key: radio.radios(),
-    type: songs[0]?.category || randomType,
+    type: category,
     limit: 9,
     initialData: songs
   });

@@ -1,11 +1,5 @@
 'use client';
 
-import { Tab } from '@headlessui/react';
-import { useRouter } from 'next/navigation';
-import { useMemo } from 'react';
-import { BsChevronRight, BsThreeDots } from 'react-icons/bs';
-
-import { typeMusic } from '@/actions/getSongs';
 import RankingCard from '@/components/RankingCard';
 import getBreakpoint from '@/helpers/getBreakpoint';
 import getClassName from '@/helpers/getClassName';
@@ -16,19 +10,22 @@ import useNavigation from '@/hooks/(utils)/useNavigation';
 import { cn } from '@/libs/utils';
 import { ranking } from '@/store/queryKeys';
 import { Song } from '@/types/types';
+import { Tab } from '@headlessui/react';
+import { useRouter } from 'next/navigation';
+import { useMemo } from 'react';
+import { BsChevronRight, BsThreeDots } from 'react-icons/bs';
 
 export const categories = ['Tất cả', 'Việt Nam', 'Quốc tế'];
 
-const RankingTabs = ({ songs }: { songs: Song[] }) => {
+const RankingTabs = ({ songs, category }: { songs: Song[]; category: string }) => {
   const { setNavigation } = useNavigation();
-  const randomType = typeMusic[Math.round(Math.random() * 3)];
   const router = useRouter();
   const breakpoints = getBreakpoint([1, 1, 2, 2, 3, 3]);
   const className = getClassName(breakpoints);
   const item = useBreakpoint(breakpoints);
   const { data } = useSong({
     key: ranking.rankings(),
-    type: songs[0]?.category || randomType,
+    type: category,
     limit: item * 4 * 3,
     initialData: songs
   });
@@ -103,14 +100,14 @@ const RankingTabs = ({ songs }: { songs: Song[] }) => {
   );
 };
 
-const NewRelease = ({ songs }: { songs: Song[] }) => {
+const NewRelease = ({ songs, category }: { songs: Song[]; category: string }) => {
   return (
     <div className="flex flex-col gap-y-5">
       <div className="flex flex-col gap-3">
         <h2 className="text-lg font-bold text-white">Mới phát hành</h2>
       </div>
       <div className="flex justify-between">
-        <RankingTabs songs={songs} />
+        <RankingTabs songs={songs} category={category} />
       </div>
     </div>
   );

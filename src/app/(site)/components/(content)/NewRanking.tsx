@@ -1,9 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 
-import { typeMusic } from '@/actions/getSongs';
 import NewRankingCard from '@/components/NewRankingCard';
 import getBreakpoint from '@/helpers/getBreakpoint';
 import useSong from '@/hooks/(data)/useSong';
@@ -49,40 +47,30 @@ const settings = {
   ]
 };
 
-const NewRanking = ({ songs }: { songs: Song[] }) => {
-  const randomType = typeMusic[Math.round(Math.random() * 3)];
-  const [list, setList] = useState<Song[] | undefined>(undefined);
-  const { isLoading, data } = useSong({
+const NewRanking = ({ songs, category }: { songs: Song[]; category: string }) => {
+  const { data } = useSong({
     key: billboard.billboards(),
-    type: songs[0]?.category || randomType,
+    type: category,
     limit: 9,
     initialData: songs
   });
 
-  useEffect(() => {
-    if (data) {
-      setList(data as Song[]);
-    }
-  }, [isLoading, data]);
   return (
     <div className="flex flex-col gap-y-5">
       <div className="flex justify-between">
-        {' '}
         <h2 className="text-lg font-bold text-white">BXH Nhạc Mới</h2>
       </div>
-      {list && (
-        <Slider {...settings}>
-          {(list as Song[])?.map((song, index) => (
-            <div
-              key={song.src}
-              className="h-36 w-full px-3 sm:h-36 sm:w-full md:h-36 md:w-1/2 xl:h-36 xl:w-1/3 2xl:h-36 2xl:w-1/3"
-            >
-              {' '}
-              <NewRankingCard rank={index + 1} song={song} />
-            </div>
-          ))}
-        </Slider>
-      )}
+      <Slider {...settings}>
+        {data?.map((song, index) => (
+          <div
+            key={song.src}
+            className="h-36 w-full px-3 sm:h-36 sm:w-full md:h-36 md:w-1/2 xl:h-36 xl:w-1/3 2xl:h-36 2xl:w-1/3"
+          >
+            {' '}
+            <NewRankingCard rank={index + 1} song={song} />
+          </div>
+        ))}
+      </Slider>
     </div>
   );
 };

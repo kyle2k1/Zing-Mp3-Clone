@@ -22,4 +22,9 @@ const radio = {
   radios: () => [...radio.all, 'radio'] as const
 };
 
-export { favorite, ranking, artist, billboard, radio };
+const songCategory = {
+  all: ['categories'] as const,
+  category: (type: string) => [...songCategory.all, type]
+};
+
+export { favorite, ranking, artist, billboard, radio, songCategory };

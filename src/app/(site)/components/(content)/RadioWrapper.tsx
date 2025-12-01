@@ -1,5 +1,6 @@
-import { getSongsByType, typeMusic } from '@/actions/getSongs';
+import { getSongsByType } from '@/actions/getSongs';
 import Radio from '@/app/(site)/components/(content)/Radio';
+import { typeMusic } from '@/constants/music';
 
 const RadioWrapper = async () => {
   const randomType = typeMusic[Math.round(Math.random() * 3)];
@@ -9,7 +10,7 @@ const RadioWrapper = async () => {
     return null;
   }
 
-  return <Radio songs={songs} />;
+  return <Radio songs={songs} category={randomType} />;
 };
 
 export default RadioWrapper;

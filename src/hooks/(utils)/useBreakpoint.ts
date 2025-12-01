@@ -5,11 +5,13 @@ interface WindowSizeProps {
   height: number;
 }
 
+type BreakpointKey = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+
 function CheckingBreakpoint(
   windowSize: { width: number; height: number },
   breakpoints: NonNullable<unknown>[]
 ) {
-  const Breakpoints = [
+  const predefinedBreakpoints: Partial<Record<BreakpointKey, number>>[] = [
     { xs: 500 },
     { sm: 640 },
     { md: 768 },
@@ -18,10 +20,11 @@ function CheckingBreakpoint(
     { '2xl': 1536 }
   ];
   for (let i = breakpoints.length - 1; i >= 0; i--) {
-    // @ts-ignore
-
-    const width = Breakpoints[i][Object.keys(breakpoints[i])[0]];
-    if (windowSize.width > width) return Object.values(breakpoints[i])[0] as number;
+    const key = Object.keys(breakpoints[i])[0] as BreakpointKey;
+    const width = predefinedBreakpoints[i][key];
+    if (width !== undefined && windowSize.width > width) {
+      return Object.values(breakpoints[i])[0] as number;
+    }
   }
   return 1;
 }
@@ -43,12 +46,9 @@ const useBreakpoint = (breakpoints: object[]) => {
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     handleResize();
-    // @ts-ignore
     setBreakPoint(CheckingBreakpoint(windowSize, breakpoints));
 
     return () => window.removeEventListener('resize', handleResize);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [windowSize.width]);
   return breakpoint;
 };

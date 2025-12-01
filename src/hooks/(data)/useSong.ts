@@ -9,6 +9,7 @@ const useSong = ({
   limit,
   initialData
 }: { key: readonly string[]; type: string; limit?: number; initialData?: Song[] }) => {
+  console.log({ type, data: initialData });
   return useQuery({
     queryKey: key,
     queryFn: async () => await getSongsByType(type, limit),

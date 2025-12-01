@@ -1,5 +1,6 @@
-import { getSongsByType, typeMusic } from '@/actions/getSongs';
+import { getSongsByType } from '@/actions/getSongs';
 import NewRelease from '@/app/(site)/components/(content)/NewRelease';
+import { typeMusic } from '@/constants/music';
 
 const NewReleaseWrapper = async () => {
   const randomType = typeMusic[Math.round(Math.random() * 3)];
@@ -9,7 +10,7 @@ const NewReleaseWrapper = async () => {
     return null;
   }
 
-  return <NewRelease songs={songs} />;
+  return <NewRelease songs={songs} category={randomType} />;
 };
 
 export default NewReleaseWrapper;

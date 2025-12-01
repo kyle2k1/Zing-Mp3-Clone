@@ -155,6 +155,16 @@
           }
         }
       }
+    },
+    {
+      "include": ["src/libs/apiClient.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useNamingConvention": "off"
+          }
+        }
+      }
     }
   ]
 }
