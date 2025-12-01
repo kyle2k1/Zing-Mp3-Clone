@@ -23,9 +23,6 @@ function getNextAuthUrl(): string {
 }
 
 function getApiUrl(): string {
-  if (nodeEnv === 'development') {
-    return 'http://localhost:3000';
-  }
   return getEnv('NEXT_PUBLIC_API_URL');
 }
 

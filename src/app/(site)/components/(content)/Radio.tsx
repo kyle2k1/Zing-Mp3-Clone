@@ -1,5 +1,4 @@
 'use client';
-import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 
 import { typeMusic } from '@/actions/getSongs';
@@ -76,35 +75,30 @@ const settings = {
   ]
 };
 
-const Radio = () => {
-  const [list, setList] = useState<Song[] | undefined>(undefined);
-  const { isLoading, data } = useSong(radio.radios, typeMusic[Math.round(Math.random() * 3)], 9);
-
-  useEffect(() => {
-    if (data) {
-      setList(data as Song[]);
-    }
-  }, [isLoading, data]);
+const Radio = ({ songs }: { songs: Song[] }) => {
+  const randomType = typeMusic[Math.round(Math.random() * 3)];
+  const { data } = useSong({
+    key: radio.radios(),
+    type: songs[0]?.category || randomType,
+    limit: 9,
+    initialData: songs
+  });
 
   return (
     <div id="radio" className="flex flex-col gap-y-5">
       <div className="flex justify-between">
-        {' '}
         <h2 className="text-lg font-bold text-white">Radio Nổi Bật</h2>
       </div>
-      {list && (
-        <Slider {...settings}>
-          {list.map((song) => (
-            <div
-              key={song.src}
-              className="w-full px-8 sm:w-1/3 sm:px-3 md:w-1/4 lg:w-1/5 xl:w-1/6 2xl:w-1/7"
-            >
-              {' '}
-              <RadioCard song={song} />
-            </div>
-          ))}
-        </Slider>
-      )}
+      <Slider {...settings}>
+        {data?.map((song) => (
+          <div
+            key={song.src}
+            className="w-full px-8 sm:w-1/3 sm:px-3 md:w-1/4 lg:w-1/5 xl:w-1/6 2xl:w-1/7"
+          >
+            <RadioCard song={song} />
+          </div>
+        ))}
+      </Slider>
     </div>
   );
 };

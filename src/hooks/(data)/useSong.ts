@@ -3,13 +3,16 @@ import { useQuery } from '@tanstack/react-query';
 import { getSongsByType } from '@/actions/getSongs';
 import { Song } from '@/types/types';
 
-/* React-query */
-
-const useSong = (key: any, type: string, limit?: number) => {
-  return useQuery<Song[] | string>({
-    // @ts-ignore
-    queryKey: key() as readonly string[],
-    queryFn: async () => getSongsByType(type, limit)
+const useSong = ({
+  key,
+  type,
+  limit,
+  initialData
+}: { key: readonly string[]; type: string; limit?: number; initialData?: Song[] }) => {
+  return useQuery({
+    queryKey: key,
+    queryFn: async () => await getSongsByType(type, limit),
+    initialData
   });
 };
 

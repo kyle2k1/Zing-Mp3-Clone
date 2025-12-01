@@ -1,6 +1,6 @@
 const favorite = {
   all: ['favorites'] as const,
-  favorites: () => [...favorite.all, 'favorite'] as const,
+  favorites: () => [...favorite.all, 'favorite'] as readonly string[],
   favorite: (id: number) => [...favorite.favorites(), id]
 };
 const ranking = {

@@ -16,42 +16,47 @@ const songsLimit = 25;
 export const typeMusic = ['trending', 'favorite', 'new-music', 'top-views'];
 
 export async function getSongsByType(type: string, limit?: number) {
-  const baseURL = `${url}/music/${type}`;
-
-  const response = await axios
-    .get(baseURL, {
-      params: {
-        _limit: limit || songsLimit,
-        _page: Math.round(Math.random() * 10)
-      }
-    })
-    .then((res) => {
-      if (res.data.data.length === 0) {
-        return;
-      }
-      const data: Song = res.data.data.map((item: any) => {
-        return {
-          singers: getArrSinger(item.name_singer),
-          songName: item.name_music,
-          category: item.category,
-          src: item.src_music,
-          image: item.image_music,
-          duration: item.time_format,
-          link: item.link_mv,
-          favorites:
-            item.favorite < 999
-              ? item.favorite
-              : item.favorite < 1000000
-                ? `${Math.floor(item.favorite / 1000)}K`
-                : `${Math.floor(item.favorite / 1000000)}M`
-        };
+  try {
+    const baseURL = `${url}/music/${type}`;
+    const response = await axios
+      .get(baseURL, {
+        params: {
+          _limit: limit || songsLimit,
+          _page: Math.round(Math.random() * 10)
+        }
+      })
+      .then((res) => {
+        if (res.data.data.length === 0) {
+          return null;
+        }
+        const data: Song[] = res.data.data.map((item: any) => {
+          return {
+            singers: getArrSinger(item.name_singer),
+            songName: item.name_music,
+            category: item.category,
+            src: item.src_music,
+            image: item.image_music,
+            duration: item.time_format,
+            link: item.link_mv,
+            favorites:
+              item.favorite < 999
+                ? item.favorite
+                : item.favorite < 1000000
+                  ? `${Math.floor(item.favorite / 1000)}K`
+                  : `${Math.floor(item.favorite / 1000000)}M`
+          };
+        });
+        return data;
+      })
+      .catch((err) => {
+        console.log('🚀 --> err:', err);
+        throw new Error(err.response.data.message);
       });
-      return data;
-    })
-    .catch((_err) => {
-      ('Something went wrong');
-    });
-  return response;
+    return response;
+  } catch (error) {
+    console.log(`Error getting songs by type: ${error}`);
+    return null;
+  }
 }
 
 export async function getSongsByWordSearch(query: string) {

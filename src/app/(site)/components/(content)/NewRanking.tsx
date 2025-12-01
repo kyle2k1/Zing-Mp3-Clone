@@ -49,19 +49,20 @@ const settings = {
   ]
 };
 
-const NewRanking = () => {
+const NewRanking = ({ songs }: { songs: Song[] }) => {
+  const randomType = typeMusic[Math.round(Math.random() * 3)];
   const [list, setList] = useState<Song[] | undefined>(undefined);
-  const { isLoading, data } = useSong(
-    billboard.billboards,
-    typeMusic[Math.round(Math.random() * 3)],
-    9
-  );
+  const { isLoading, data } = useSong({
+    key: billboard.billboards(),
+    type: songs[0]?.category || randomType,
+    limit: 9,
+    initialData: songs
+  });
 
   useEffect(() => {
     if (data) {
       setList(data as Song[]);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, data]);
   return (
     <div className="flex flex-col gap-y-5">

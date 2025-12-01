@@ -1,18 +1,16 @@
-import { StaticImageData } from 'next/image';
-
 export interface Song {
   singers: string[];
   songName: string;
   category: string;
   src: string;
-  image: StaticImageData;
+  image: string;
   duration: string;
   link: string;
   favorites: number | string;
 }
 
 export interface Thumbnail {
-  image: StaticImageData;
+  image: string;
   title: string;
   singers: string[];
   song: Song;
