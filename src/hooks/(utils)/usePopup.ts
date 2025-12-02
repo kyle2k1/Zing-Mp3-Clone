@@ -3,7 +3,7 @@ import { useRef } from 'react';
 const usePopup = () => {
   let enterTimeout: any;
   let leaveTimeout: any;
-  const timeoutDuration = 400;
+  const timeoutDuration = 100;
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const onClose = (open: boolean, close: () => void) => {
