@@ -24,6 +24,13 @@ interface ArtistPopupProps {
 const description =
   'Description: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text ever since the 1500s';
 
+/** Lesson learned:
+ * If we quickly open -> leave -> re-open again, close event will be triggered and close new popover, too
+ * -> Use a global instance tracked id to prevent this
+ */
+// Global tracker for active popover to prevent cross-popover interference
+let activePopoverId: string | null = null;
+
 const LoadingUI = () => {
   return (
     <>
@@ -68,6 +75,7 @@ const LoadingUI = () => {
 
 const ArtistModal = ({ children, singer }: ArtistPopupProps) => {
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const instanceIdRef = useRef<string>(`${singer}-${Math.random()}`); // Unique ID for this popover instance
   const { showPlayer, setShowPlayer, setPlaying, setPlaylist } = usePlayer();
   const { buttonRef, onClose, onOpen } = usePopup();
   const size = useWindowSize();
@@ -92,11 +100,19 @@ const ArtistModal = ({ children, singer }: ArtistPopupProps) => {
           <div className="relative w-fit">
             <Popover.Button
               onMouseEnter={(e) => {
+                if (timerRef.current) {
+                  clearTimeout(timerRef.current);
+                  timerRef.current = undefined;
+                }
+
                 timerRef.current = setTimeout(() => {
                   const width = (e.clientX * 100) / (size?.width || 1);
                   const height = (e.clientY * 100) / (size?.height || 1);
                   setPosition({ width, height });
+                  // Mark this as the active popover
+                  activePopoverId = instanceIdRef.current;
                   onOpen(open);
+                  timerRef.current = undefined;
                 }, 100);
               }}
               ref={buttonRef}
@@ -104,8 +120,22 @@ const ArtistModal = ({ children, singer }: ArtistPopupProps) => {
               onMouseLeave={() => {
                 if (timerRef.current) {
                   clearTimeout(timerRef.current);
+                  timerRef.current = undefined;
                 }
-                onClose(open, close);
+                if (open && activePopoverId === instanceIdRef.current) {
+                  onClose(open, () => {
+                    // Only close if this is current active popover
+                    if (activePopoverId === instanceIdRef.current) {
+                      activePopoverId = null;
+                      close();
+                    }
+                  });
+                } else {
+                  // Clear active popover if this one is closing
+                  if (activePopoverId === instanceIdRef.current) {
+                    activePopoverId = null;
+                  }
+                }
               }}
             >
               {children}
@@ -131,7 +161,15 @@ const ArtistModal = ({ children, singer }: ArtistPopupProps) => {
                       onOpen(open);
                     }}
                     onMouseLeave={() => {
-                      onClose(open, close);
+                      // Only close if this is still the active popover
+                      if (activePopoverId === instanceIdRef.current) {
+                        onClose(open, () => {
+                          if (activePopoverId === instanceIdRef.current) {
+                            activePopoverId = null;
+                            close();
+                          }
+                        });
+                      }
                     }}
                     className="relative flex h-full flex-col gap-4 overflow-hidden rounded-md bg-searchFocus p-4"
                   >
