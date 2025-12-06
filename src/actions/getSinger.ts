@@ -26,7 +26,6 @@ export async function getSinger(name: string): Promise<Song[]> {
 
     // For singer results, each item has a single singer name (not comma-separated)
     const parseSingerName = (value: string) => [value.trim()];
-
     return response.data.data.map((item) => transformSongItem(item, parseSingerName));
   } catch (error) {
     handleApiError(error);

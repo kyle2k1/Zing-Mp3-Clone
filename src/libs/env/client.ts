@@ -1,14 +1,7 @@
 const nodeEnv = process.env.NODE_ENV || 'development';
 
 function getApiUrl(): string {
-  if (nodeEnv === 'development') {
-    return 'http://localhost:3000';
-  }
-  const value = process.env.NEXT_PUBLIC_API_URL;
-  if (!value) {
-    throw new Error('NEXT_PUBLIC_API_URL is required in production');
-  }
-  return value;
+  return process.env.NEXT_PUBLIC_API_URL
 }
 
 function getNextAuthUrl(): string {

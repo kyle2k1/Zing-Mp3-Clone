@@ -2,13 +2,14 @@ import axios, { AxiosInstance, AxiosError } from 'axios';
 
 import getArrSinger from '@/helpers/getArrSinger';
 import { Song } from '@/types/types';
-import { api } from './env';
+import { api,envClient } from './env';
 
+const baseApi = api.url || envClient.api.url
 /**
  * Centralized API client with base configuration
  */
 const apiClient: AxiosInstance = axios.create({
-  baseURL: api.url,
+  baseURL: baseApi,
   timeout: 10000, // 10 seconds
   headers: {
     'Content-Type': 'application/json'

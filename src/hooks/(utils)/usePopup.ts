@@ -3,7 +3,8 @@ import { useRef } from 'react';
 const usePopup = () => {
   let enterTimeout: any;
   let leaveTimeout: any;
-  const timeoutDuration = 100;
+  const timeoutDurationOpen = 100;
+  const timeoutDurationLeave = 300;
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const onClose = (open: boolean, close: () => void) => {
@@ -11,7 +12,7 @@ const usePopup = () => {
     leaveTimeout = setTimeout(() => {
       if (!open) clearTimeout(leaveTimeout);
       close();
-    }, timeoutDuration);
+    }, timeoutDurationLeave);
   };
   const onOpen = (open: boolean) => {
     if (leaveTimeout) clearTimeout(leaveTimeout);
@@ -19,7 +20,7 @@ const usePopup = () => {
       if (!open) {
         buttonRef?.current?.click();
       }
-    }, timeoutDuration);
+    }, timeoutDurationOpen);
   };
   return { buttonRef, onClose, onOpen };
 };
