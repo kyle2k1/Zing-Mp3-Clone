@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { BsFillSkipEndFill, BsFillSkipStartFill, BsRepeat } from 'react-icons/bs';
 import { LiaRandomSolid } from 'react-icons/lia';
 import ReactPlayer from 'react-player';
-import { OnProgressProps } from 'react-player/base';
 
 import Play from '@/components/Play';
 import getDuration from '@/helpers/getDuration';
@@ -27,33 +26,33 @@ const options = ({ onPrev, onNext, onPlay, onRepeat, onRandom }: OptionsProps) =
     icon: LiaRandomSolid,
     label: 'random',
     onClick: onRandom,
-    size: 22
+    size: 22,
   },
   {
     icon: BsFillSkipStartFill,
     label: 'prev',
     onClick: onPrev,
-    size: 25
+    size: 25,
   },
   {
     icon: LiaRandomSolid,
     play: Play,
     label: 'play',
     onClick: onPlay,
-    size: 27
+    size: 27,
   },
   {
     icon: BsFillSkipEndFill,
     label: 'next',
     onClick: onNext,
-    size: 25
+    size: 25,
   },
   {
     icon: BsRepeat,
     label: 'repeat',
     onClick: onRepeat,
-    size: 22
-  }
+    size: 22,
+  },
 ];
 
 const PlayerAction = () => {
@@ -70,7 +69,7 @@ const PlayerAction = () => {
     setPrev,
     setNext,
     setRepeat,
-    setRandom
+    setRandom,
   } = usePlayer();
   const { volume, mute, change } = useVolume();
   const { showFrame } = useFrame();
@@ -78,19 +77,54 @@ const PlayerAction = () => {
   const [seeking, setSeeking] = useState<boolean>(false);
   const [loop, setLoop] = useState<boolean>(false);
   const ref = useRef<ReactPlayer>(null);
-  const getBackgroundSize = () => {
-    return {
-      backgroundSize: `${ref?.current ? seconds * 100 : '0'}% 100%`
-    };
-  };
+  const animationFrameRef = useRef<number | null>(null);
+
+  const getBackgroundSize = useMemo(() => `${ref?.current ? seconds * 100 : '0'}% 100%`, [seconds]);
+
   useEffect(() => {
     if (typeRepeat === 1) setLoop(true);
     else setLoop(false);
   }, [typeRepeat]);
-  /* Function */
-  const onProgress = (value: OnProgressProps) => {
-    if (!seeking && !change) setSeconds(value.played);
-  };
+
+  // Use requestAnimationFrame for smooth progress updates
+  useEffect(() => {
+    const updateProgress = () => {
+      if (ref.current && !seeking && !change) {
+        const currentTime = ref.current.getCurrentTime();
+        const duration = ref.current.getDuration();
+
+        if (duration > 0) {
+          const progress = currentTime / duration;
+          setSeconds(progress);
+        }
+      }
+
+      // Continue animation frame loop when playing
+      if (isPlaying && isFirst && !showFrame && !seeking && !change) {
+        animationFrameRef.current = requestAnimationFrame(updateProgress);
+      }
+    };
+
+    // Start the animation frame loop when playing
+    if (isPlaying && isFirst && !showFrame && !seeking && !change) {
+      animationFrameRef.current = requestAnimationFrame(updateProgress);
+    } else {
+      // Stop animation frame when not playing
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+    }
+
+    // Cleanup on unmount or when conditions change
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+    };
+  }, [isPlaying, isFirst, showFrame, seeking, change]);
+
   const onNext = () => {
     setNext();
   };
@@ -119,14 +153,16 @@ const PlayerAction = () => {
     }
   };
   const onDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    ref?.current?.seekTo(Number.parseFloat(e.target.value));
+    const newValue = Number.parseFloat(e.target.value);
+    setSeconds(newValue);
+    ref?.current?.seekTo(newValue);
   };
   const actions = options({
     onPrev,
     onNext,
     onPlay,
     onRepeat,
-    onRandom
+    onRandom,
   });
   return (
     <div className="col-span-3 flex h-20 flex-col justify-center py-3 sm:col-span-1">
@@ -146,7 +182,7 @@ const PlayerAction = () => {
                 btnPlay={{
                   circle: true,
                   size: action.size,
-                  isPlay: isPlaying && !isLoad
+                  isPlay: isPlaying && !isLoad,
                 }}
                 className="hover:border-textPrimary hover:bg-transparent"
               />
@@ -157,7 +193,7 @@ const PlayerAction = () => {
               className={cn(
                 action.label === 'repeat' && typeRepeat !== 0 && 'text-textPrimary',
                 action.label === 'random' && isRandom && 'text-textPrimary',
-                'relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-full hover:bg-playerFocus'
+                'relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-full hover:bg-playerFocus',
               )}
               onClick={(e) => {
                 e.stopPropagation();
@@ -169,9 +205,7 @@ const PlayerAction = () => {
                 title={action.label.charAt(0).toUpperCase() + action.label.slice(1)}
               />
               {action.label === 'repeat' && typeRepeat === 1 && (
-                <span className="absolute flex w-full items-center justify-center text-[8px]">
-                  1
-                </span>
+                <span className="absolute flex w-full items-center justify-center text-[8px]">1</span>
               )}
             </div>
           );
@@ -189,12 +223,13 @@ const PlayerAction = () => {
           onError={(e) => logger.error('Player error:', e)}
           onReady={onReady}
           onEnded={onEnded}
-          onProgress={onProgress}
           config={{ file: { forceAudio: true } }}
           style={{ display: 'none' }}
         />
         <div className="flex items-center gap-2 text-xx font-semibold tracking-wide text-contentDesc">
-          <span>{ref?.current ? getDuration(ref?.current?.getCurrentTime()) : '00:00'}</span>
+          <span className="w-14 text-right tabular-nums">
+            {ref?.current ? getDuration(ref?.current?.getCurrentTime()) : '00:00'}
+          </span>
           <input
             id="player"
             type="range"
@@ -206,9 +241,9 @@ const PlayerAction = () => {
             onChange={onDurationChange}
             onMouseUp={() => setSeeking(false)}
             className="h-[3px] w-full cursor-pointer bg-contentDesc transition"
-            style={getBackgroundSize()}
+            style={{ backgroundSize: getBackgroundSize }}
           />
-          <span className={cn(currentSong && 'text-white')}>
+          <span className={cn('w-14 text-left tabular-nums', currentSong && 'text-white')}>
             {currentSong ? currentSong.duration : 'NaN:NaN'}
           </span>
         </div>
