@@ -25,17 +25,19 @@ class Logger {
     this.timestamp = options.timestamp ?? true;
   }
 
+  private getTime(){
+    return new Date().toLocaleTimeString('en-US', {
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+  }
   private formatMessage(level: 'info' | 'error', ...args: unknown[]): unknown[] {
     const parts: unknown[] = [];
 
     if (this.timestamp) {
-      const now = new Date();
-      const time = now.toLocaleTimeString('en-US', {
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      });
+      const time = this.getTime();
       parts.push(`[${time}]`);
     }
 
@@ -69,7 +71,7 @@ class Logger {
       context,
       level,
       sheetName: SHEET_STORE_NAME,
-      message: JSON.stringify(message),
+      message: `[${this.getTime()}] ${message}`,
     }
     // store in sheets
     fetch(LOG_URL, {
