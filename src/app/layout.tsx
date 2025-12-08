@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 
 import getCurrentUser from '@/actions/getCurrentUser';
 import Sidebar from '@/app/(site)/components/Sidebar';
+import AccessTracker from '@/components/AccessTracker';
 import siteMetadata from '@/libs/siteMetaData';
 import LoginModal from '@/models/(header)/LoginModal';
 import UploadModal from '@/models/(header)/UploadModal';
@@ -25,7 +26,7 @@ export const metadata = {
   metadataBase: new URL(content.siteUrl),
   title: {
     template: `%s | ${content.title}`,
-    default: content.title
+    default: content.title,
   },
   description: content.description,
   openGraph: {
@@ -35,7 +36,7 @@ export const metadata = {
     siteName: content.title,
     images: [content.socialBanner],
     locale: content.locale,
-    type: 'website'
+    type: 'website',
   },
   robots: {
     index: true,
@@ -46,9 +47,9 @@ export const metadata = {
       noimageindex: true,
       'max-video-preview': -1,
       'max-image-preview': 'large',
-      'max-snippet': -1
-    }
-  }
+      'max-snippet': -1,
+    },
+  },
 };
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {
@@ -58,6 +59,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
       <body className={font.className}>
         <ReactQueryProvider>
           <ToastifyProvider />
+          <AccessTracker currentUser={currentUser} />
           <LoginModal />
           <UploadModal />
           <Header currentUser={currentUser} />

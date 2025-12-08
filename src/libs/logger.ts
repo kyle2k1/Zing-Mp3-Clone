@@ -5,6 +5,17 @@ interface LoggerOptions {
   timestamp?: boolean;
 }
 
+
+const SHEET_STORE_NAME=process.env.SHEET_STORE_NAME
+const LOG_URL=process.env.LOG_URL
+
+interface LogPayload {
+  level: 'info' | 'error';
+  sheetName: string;
+  message: string;
+  context: unknown;
+}
+
 class Logger {
   private prefix: string;
   private timestamp: boolean;
@@ -35,6 +46,9 @@ class Logger {
     parts.push(`[${level.toUpperCase()}]`);
     parts.push(...args);
 
+    if(!isDevelopment && level === 'error'){
+      this.transferToStore({level: 'error', message: parts.join(' '), context: args});
+    }
     return parts;
   }
 
@@ -45,6 +59,23 @@ class Logger {
 
   error(...args: unknown[]): void {
     console.error(...this.formatMessage('error', ...args));
+  }
+
+  transferToStore(props: {level: 'info' | 'error', message: string, context?: unknown}): void {
+    if (!isDevelopment) return;
+    const {message, context = {}, level} = props
+
+    const payload:LogPayload = {
+      context,
+      level,
+      sheetName: SHEET_STORE_NAME,
+      message: JSON.stringify(message),
+    }
+    // store in sheets
+    fetch(LOG_URL, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
   }
 
   // Create a scoped logger with a prefix

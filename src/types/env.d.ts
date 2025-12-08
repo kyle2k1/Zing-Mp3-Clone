@@ -22,6 +22,9 @@ namespace NodeJS {
     EMAIL_ADDRESS: string;
     EMAIL_PASSWORD: string;
 
+    LOG_URL:string;
+    SHEET_STORE_NAME:string;
+    
     NODE_ENV: string;
   }
 }
