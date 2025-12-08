@@ -1,6 +1,7 @@
 const isProd = process.env.NODE_ENV === 'production';
 const SHEET_STORE_NAME=process.env.SHEET_STORE_NAME
 const LOG_URL=process.env.LOG_URL
+
 interface LoggerOptions {
   prefix?: string;
   timestamp?: boolean;
@@ -61,9 +62,8 @@ class Logger {
   }
 
   transferToStore(props: {level: 'info' | 'error', message: string, context?: unknown}): void {
-    if (!isProd) return;
+  if (!isProd) return;
     const {message, context = {}, level} = props
-
     const payload:LogPayload = {
       context,
       level,
