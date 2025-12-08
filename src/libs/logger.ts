@@ -1,13 +1,11 @@
-const isDevelopment = process.env.NODE_ENV === 'development';
+const isProd = process.env.NODE_ENV === 'production';
+const SHEET_STORE_NAME=process.env.SHEET_STORE_NAME
+const LOG_URL=process.env.LOG_URL
 
 interface LoggerOptions {
   prefix?: string;
   timestamp?: boolean;
 }
-
-
-const SHEET_STORE_NAME=process.env.SHEET_STORE_NAME
-const LOG_URL=process.env.LOG_URL
 
 interface LogPayload {
   level: 'info' | 'error';
@@ -48,14 +46,14 @@ class Logger {
     parts.push(`[${level.toUpperCase()}]`);
     parts.push(...args);
 
-    if(!isDevelopment && level === 'error'){
+    if(isProd && level === 'error'){
       this.transferToStore({level: 'error', message: parts.join(' '), context: args});
     }
     return parts;
   }
 
   info(...args: unknown[]): void {
-    if (!isDevelopment) return;
+    if (isProd) return;
     console.info(...this.formatMessage('info', ...args));
   }
 
@@ -64,7 +62,7 @@ class Logger {
   }
 
   transferToStore(props: {level: 'info' | 'error', message: string, context?: unknown}): void {
-    if (!isDevelopment) return;
+    if (!isProd) return;
     const {message, context = {}, level} = props
 
     const payload:LogPayload = {
