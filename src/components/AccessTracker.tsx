@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { User } from '@prisma/client';
-
 import logger from '@/libs/logger';
 
 interface AccessTrackerProps {
@@ -25,26 +24,35 @@ const AccessTracker = ({ currentUser }: AccessTrackerProps) => {
     const screenHeight = typeof window !== 'undefined' ? window.screen.height : 0;
     const referrer = typeof document !== 'undefined' ? document.referrer : '';
 
-    // Log the access with user information if available
-    logger.transferToStore({
-      level: 'info',
-      message: 'Website access',
-      context: {
-        pathname,
-        userAgent,
-        screenWidth,
-        screenHeight,
-        referrer,
-        timestamp: new Date().toISOString(),
-        user: currentUser
-          ? {
-              id: currentUser.id,
-              email: currentUser.email,
-              username: currentUser.username,
-              name: currentUser.name,
-            }
-          : null,
+    // Log the access via API route (server-side) with user information if available
+    fetch('/api/log', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        level: 'info',
+        message: 'Website access',
+        context: {
+          pathname,
+          userAgent,
+          screenWidth,
+          screenHeight,
+          referrer,
+          timestamp: new Date().toISOString(),
+          user: currentUser
+            ? {
+                id: currentUser.id,
+                email: currentUser.email,
+                username: currentUser.username,
+                name: currentUser.name,
+              }
+            : null,
+        },
+      }),
+    }).catch((error) => {
+      // Silently fail - don't break the app if logging fails
+      logger.error(`Failed to log access: ${error}`);
     });
   }, [pathname, currentUser]);
 

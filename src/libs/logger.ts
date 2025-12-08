@@ -1,7 +1,6 @@
 const isProd = process.env.NODE_ENV === 'production';
 const SHEET_STORE_NAME=process.env.SHEET_STORE_NAME
 const LOG_URL=process.env.LOG_URL
-
 interface LoggerOptions {
   prefix?: string;
   timestamp?: boolean;
@@ -72,10 +71,14 @@ class Logger {
       message: `[${this.getTime()}] ${message}`,
     }
     // store in sheets
+   try {
     fetch(LOG_URL, {
       method: 'POST',
       body: JSON.stringify(payload),
     });
+   } catch (error) {
+    this.error(`Error transferring to store: ${error}`);
+   }
   }
 
   // Create a scoped logger with a prefix
