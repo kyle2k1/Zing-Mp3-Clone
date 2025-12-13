@@ -32,7 +32,7 @@ const Loader = () => {
           style={{
             paddingBottom: '100%',
             animation: 'wobble1 0.8s infinite ease-in-out',
-            animationDelay: '-0.24s'
+            animationDelay: '-0.24s',
           }}
         />
       </div>
@@ -46,7 +46,7 @@ const Loader = () => {
           style={{
             paddingBottom: '100%',
             animation: 'wobble1 0.8s infinite ease-in-out',
-            animationDelay: '-0.12s'
+            animationDelay: '-0.12s',
           }}
         />
       </div>
@@ -59,7 +59,7 @@ const Loader = () => {
           className="absolute top-0 left-0 w-full rounded-full bg-login"
           style={{
             paddingBottom: '100%',
-            animation: 'wobble2 0.8s infinite ease-in-out'
+            animation: 'wobble2 0.8s infinite ease-in-out',
           }}
         />
       </div>
@@ -69,21 +69,18 @@ const Loader = () => {
 
 const InfinitePage: React.FC<InfinitePageProps> = ({ like }) => {
   const { ref, inView } = useInView({ threshold: 0.2 });
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetching, isFetchingNextPage } =
-    useQueryScroll({
-      slug: slugs[0]
-    });
+  const { data, fetchNextPage, hasNextPage, isLoading, isFetching, isFetchingNextPage } = useQueryScroll({
+    slug: slugs[0],
+  });
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
   }, [inView, fetchNextPage, hasNextPage]);
 
-  const { showPlayer, setShowPlayer, setPlaying, setPlaylist, currentSong, setContinue } =
-    usePlayer();
+  const { showPlayer, setShowPlayer, setPlaying, setPlaylist, currentSong, setContinue } = usePlayer();
 
-  const emptyData =
-    (!isFetchingNextPage && !isLoading && !isFetching && !data) || data?.pages.length === 0;
+  const emptyData = (!isFetchingNextPage && !isLoading && !isFetching && !data) || data?.pages.length === 0;
   return (
     <div className="flex flex-col w-full h-fit">
       <div className="flex justify-between pb-2 text-left text-xx font-semibold uppercase text-contentDesc lg:px-2">
@@ -112,7 +109,7 @@ const InfinitePage: React.FC<InfinitePageProps> = ({ like }) => {
                   key={song.songName + idx1 + idx2}
                   className={cn(
                     'group grid cursor-pointer grid-cols-4 rounded-md border-t border-contentDesc/10 px-2 py-2 hover:bg-sidebarActive md:grid-cols-3',
-                    song.src === currentSong?.src && 'bg-sidebarActive'
+                    song.src === currentSong?.src && 'bg-sidebarActive',
                   )}
                 >
                   <div className="col-span-3 overflow-hidden sm:overflow-visible md:col-span-2">
