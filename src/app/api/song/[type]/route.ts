@@ -14,7 +14,7 @@ interface SongParams {
 
 export async function GET(_: Request, context: { params: Promise<SongParams> }) {
   try {
-    const { type } = await  context.params;
+    const { type } = await context.params;
     const currentUser = await getCurrentUser();
     if (!currentUser) throw new Error('Unauthorized');
     const array = currentUser[type as keyof User];

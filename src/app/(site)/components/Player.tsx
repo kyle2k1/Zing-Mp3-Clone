@@ -17,7 +17,7 @@ const Player = () => {
       <>
         <div
           className={cn(
-            'fixed bottom-0 z-10 h-20 w-full bg-playerBackground px-4 transition-all delay-150 ease-linear',
+            'fixed bottom-0 z-10 h-20 w-full bg-playerBackground px-4 transition-all delay-150 ease-linear'
           )}
         >
           {/* Player */}

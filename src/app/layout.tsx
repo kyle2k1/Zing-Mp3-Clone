@@ -26,7 +26,7 @@ export const metadata = {
   metadataBase: new URL(content.siteUrl),
   title: {
     template: `%s | ${content.title}`,
-    default: content.title,
+    default: content.title
   },
   description: content.description,
   openGraph: {
@@ -36,7 +36,7 @@ export const metadata = {
     siteName: content.title,
     images: [content.socialBanner],
     locale: content.locale,
-    type: 'website',
+    type: 'website'
   },
   robots: {
     index: true,
@@ -47,9 +47,9 @@ export const metadata = {
       noimageindex: true,
       'max-video-preview': -1,
       'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+      'max-snippet': -1
+    }
+  }
 };
 
 const RootLayout = async ({ children }: { children: React.ReactNode }) => {

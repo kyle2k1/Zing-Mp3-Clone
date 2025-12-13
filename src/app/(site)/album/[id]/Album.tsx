@@ -26,7 +26,7 @@ const Album: React.FC<AlbumProps> = ({ params }) => {
   const randomCategory = useMemo(() => typeMusic[Math.floor(Math.random() * typeMusic.length)], []);
   const { data: favoritesData, isLoading } = useSong({
     key: favorite.favorites(),
-    type: randomCategory,
+    type: randomCategory
   });
 
   // Create a random album from favorites if cache is missed
@@ -43,12 +43,12 @@ const Album: React.FC<AlbumProps> = ({ params }) => {
         title: randomSong.songName,
         singers: randomSong.singers,
         song: randomSong,
-        favorites: randomSong.favorites,
+        favorites: randomSong.favorites
       };
 
       return {
         data: favoritesData,
-        thumbnails: thumbnail,
+        thumbnails: thumbnail
       } as List;
     }
 
@@ -60,7 +60,10 @@ const Album: React.FC<AlbumProps> = ({ params }) => {
     return (
       <section className="mt-sidebarHeight h-screen overflow-hidden bg-content">
         <div
-          className={cn('flex h-full items-center justify-center', showPlayer ? 'h-[calc(100vh-70px)]' : 'h-screen')}
+          className={cn(
+            'flex h-full items-center justify-center',
+            showPlayer ? 'h-[calc(100vh-70px)]' : 'h-screen'
+          )}
         >
           <div className="border-3 m-auto h-8 w-8 animate-spin rounded-full border-t-4 border-gray-200 border-t-fuchsia-500 shadow-md transition" />
         </div>
@@ -73,12 +76,12 @@ const Album: React.FC<AlbumProps> = ({ params }) => {
     return (
       <section className="mt-sidebarHeight h-screen overflow-hidden bg-content">
         <div
-          className={cn('flex h-full items-center justify-center', showPlayer ? 'h-[calc(100vh-70px)]' : 'h-screen')}
+          className={cn(
+            'flex h-full items-center justify-center',
+            showPlayer ? 'h-[calc(100vh-70px)]' : 'h-screen'
+          )}
         >
-          <EmptyState
-            text="Album không tìm thấy. Vui lòng quay lại trang chủ."
-            home
-          />
+          <EmptyState text="Album không tìm thấy. Vui lòng quay lại trang chủ." home />
         </div>
       </section>
     );
@@ -90,17 +93,14 @@ const Album: React.FC<AlbumProps> = ({ params }) => {
         className={cn(
           'gap-10 overflow-hidden overflow-y-auto px-12 pt-8 lg:flex',
           showPlayer ? 'h-[calc(100vh-70px)]' : 'h-screen',
-          showPlayer ? 'pb-24' : 'pb-20',
+          showPlayer ? 'pb-24' : 'pb-20'
         )}
       >
         <AlbumCard
           thumbnails={data.thumbnails}
           active={data.data?.some((song) => song.src === data.thumbnails?.song?.src)}
         />
-        <ListSongs
-          data={data.data}
-          className="h-fit w-full"
-        />
+        <ListSongs data={data.data} className="h-fit w-full" />
       </div>
     </section>
   );

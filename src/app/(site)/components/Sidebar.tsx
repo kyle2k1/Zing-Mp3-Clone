@@ -33,7 +33,10 @@ const Sidebar: React.FC<SidebarProps> = ({ currentUser, children }) => {
   const dataRankings = routes.slice(4, 6);
   const dataPrivate = routes.slice(6, 7);
   const dataPlaylists = routes.slice(7, 8);
-  const condition = (classNameTrue: string | StaticImageData, classNameFalse: string | StaticImageData) => {
+  const condition = (
+    classNameTrue: string | StaticImageData,
+    classNameFalse: string | StaticImageData
+  ) => {
     if (item === 2) {
       return classNameTrue;
     }
@@ -57,7 +60,11 @@ const Sidebar: React.FC<SidebarProps> = ({ currentUser, children }) => {
           width={0}
           alt="Logo"
           src={condition('/images/sidebar/logo.svg', '/images/sidebar/logo_mobile.svg') || ''}
-          className={cn(condition('', 'aspect-square'), condition('w-28', 'w-10'), condition('h-11', 'h-10'))}
+          className={cn(
+            condition('', 'aspect-square'),
+            condition('w-28', 'w-10'),
+            condition('h-11', 'h-10')
+          )}
         />
       </div>
       <div
@@ -67,14 +74,14 @@ const Sidebar: React.FC<SidebarProps> = ({ currentUser, children }) => {
           show || showSidebar ? 'fixed left-0 z-40' : '',
           show || showSidebar ? 'transition-all delay-150 ease-linear' : '',
           showPlayer ? 'h-[calc(100vh-90px)]' : 'h-screen',
-          !show && 'hidden',
+          !show && 'hidden'
         )}
       >
         <div
           className={cn(
             'flex flex-col bg-sidebarBackground lg:w-54',
             showSidebar ? 'w-54' : 'w-sidebarHeight',
-            showPlayer ? 'h-[calc(100vh-144px)]' : 'h-[calc(100vh-54px)]',
+            showPlayer ? 'h-[calc(100vh-144px)]' : 'h-[calc(100vh-54px)]'
           )}
         >
           <div
@@ -84,22 +91,31 @@ const Sidebar: React.FC<SidebarProps> = ({ currentUser, children }) => {
                 setShow(false);
               }
             }}
-            className={cn('h-sidebarHeight cursor-pointer hover:opacity-90', condition('pl-[25px] pr-[25px]', ''))}
+            className={cn(
+              'h-sidebarHeight cursor-pointer hover:opacity-90',
+              condition('pl-[25px] pr-[25px]', '')
+            )}
           >
-            <div className={cn('flex h-sidebarHeight w-full items-center', condition('', 'justify-center'))}>
+            <div
+              className={cn(
+                'flex h-sidebarHeight w-full items-center',
+                condition('', 'justify-center')
+              )}
+            >
               <Image
                 height={0}
                 width={0}
                 alt="Logo"
                 src={condition('/images/sidebar/logo.svg', '/images/sidebar/logo_mobile.svg') || ''}
-                className={cn(condition('', 'aspect-square'), condition('w-28', 'w-10'), condition('h-11', 'h-10'))}
+                className={cn(
+                  condition('', 'aspect-square'),
+                  condition('w-28', 'w-10'),
+                  condition('h-11', 'h-10')
+                )}
               />
             </div>
           </div>
-          <Box
-            data={dataHome}
-            item={item}
-          />
+          <Box data={dataHome} item={item} />
           <div className="relative ml-[21px] mr-[25px] mt-[14px]">
             <div className="absolute -top-px h-px w-full bg-sidebarActive" />
             <div className="absolute top-0 z-10 h-[14px] w-full bg-sidebarBackground" />
@@ -110,29 +126,23 @@ const Sidebar: React.FC<SidebarProps> = ({ currentUser, children }) => {
             onClick={() => show && setShow(false)}
             className="relative overflow-hidden pt-[14px] hover:overflow-y-auto"
           >
-            <Box
-              data={dataRankings}
-              item={item}
-            />
-            {currentUser && (
-              <Box
-                data={dataPrivate}
-                item={item}
-              />
-            )}
+            <Box data={dataRankings} item={item} />
+            {currentUser && <Box data={dataPrivate} item={item} />}
             <div
               className={cn(
                 'my-5 hidden h-30 w-full items-center justify-center px-[21px]',
-                currentUser?.isSubscribed ? 'hidden' : 'xl:flex',
+                currentUser?.isSubscribed ? 'hidden' : 'xl:flex'
               )}
             >
               <div className="bg-vip flex h-full w-full flex-col items-center justify-center gap-3 rounded-md px-3 text-white">
-                <h2 className="text-center text-xx font-bold">Nghe nhạc không quảng cáo cùng kho nhạc PREMIUM</h2>
+                <h2 className="text-center text-xx font-bold">
+                  Nghe nhạc không quảng cáo cùng kho nhạc PREMIUM
+                </h2>
                 <div
                   onClick={async () => {
                     if (currentUser) {
                       const res = await axios.post('/api/checkout', {
-                        data: '',
+                        data: ''
                       });
                       window.location.href = res.data.url;
                     } else {
@@ -151,13 +161,10 @@ const Sidebar: React.FC<SidebarProps> = ({ currentUser, children }) => {
         <div
           className={cn(
             'flex h-[54px] items-center justify-between bg-sidebarBackground',
-            show ? 'w-sidebarHeight' : 'w-sidebarWidth',
+            show ? 'w-sidebarHeight' : 'w-sidebarWidth'
           )}
         >
-          <Box
-            data={dataPlaylists}
-            item={item}
-          />
+          <Box data={dataPlaylists} item={item} />
         </div>
       </div>
       {/* /// Layout */}

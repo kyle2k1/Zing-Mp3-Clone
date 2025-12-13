@@ -6,7 +6,7 @@ import { getInfiniteSongs } from '@/actions/getSongs';
 import { Slug } from '@/constants/music';
 
 const LIMIT = 10;
-const UseQueryScroll = ({ slug }: { slug: Slug }) => {
+const useQueryScroll = ({ slug }: { slug: Slug }) => {
   return useInfiniteQuery({
     queryKey: ['songs'],
     queryFn: ({ pageParam }) => getInfiniteSongs({ pageParam, slug }),
@@ -16,4 +16,4 @@ const UseQueryScroll = ({ slug }: { slug: Slug }) => {
   });
 };
 
-export default UseQueryScroll;
+export default useQueryScroll;

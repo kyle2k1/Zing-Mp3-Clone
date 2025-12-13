@@ -6,7 +6,7 @@ const DEFAULT_TITLE = 'Zing MP3 | Nghe tải nhạc chất lượng cao trên de
 
 /**
  * Hook to update document title based on currently playing song
- * 
+ *
  * Note: `document` is a browser global object (DOM API) that's only available on the client side.
  * This hook is safe to use in client components ('use client').
  */
@@ -35,4 +35,3 @@ export default function useDocumentTitle() {
     };
   }, [currentSong, isPlaying]);
 }
-

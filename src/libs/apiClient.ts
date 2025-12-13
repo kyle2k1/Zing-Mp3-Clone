@@ -2,9 +2,9 @@ import axios, { AxiosInstance, AxiosError } from 'axios';
 
 import getArrSinger from '@/helpers/getArrSinger';
 import { Song } from '@/types/types';
-import { api,envClient } from './env';
+import { api, envClient } from './env';
 
-const baseApi = api.url || envClient.api.url
+const baseApi = api.url || envClient.api.url;
 /**
  * Centralized API client with base configuration
  */

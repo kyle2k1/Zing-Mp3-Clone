@@ -1,7 +1,7 @@
 const nodeEnv = process.env.NODE_ENV || 'development';
 
 function getApiUrl(): string {
-  return process.env.NEXT_PUBLIC_API_URL
+  return process.env.NEXT_PUBLIC_API_URL;
 }
 
 function getNextAuthUrl(): string {

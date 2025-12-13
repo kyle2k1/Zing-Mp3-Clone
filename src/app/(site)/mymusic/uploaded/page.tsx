@@ -5,7 +5,7 @@ import getCurrentUser from '@/actions/getCurrentUser';
 import Uploaded from './Uploaded';
 
 export const metadata = {
-  title: 'Uploaded | Xem bài hát, album, MV đang hot nhất hiện tại',
+  title: 'Uploaded | Xem bài hát, album, MV đang hot nhất hiện tại'
 };
 
 const Home = async () => {

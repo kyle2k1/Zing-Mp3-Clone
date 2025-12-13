@@ -16,9 +16,11 @@ const Ranking = () => {
   const { data } = useSong({
     key: ranking.rankings(),
     type: randomType,
-    limit: 24,
+    limit: 24
   });
-  const lists = data ? Array.from({ length: 3 }).map((_, idx) => data.slice(idx * 8, idx * 8 + 8)) : undefined;
+  const lists = data
+    ? Array.from({ length: 3 }).map((_, idx) => data.slice(idx * 8, idx * 8 + 8))
+    : undefined;
 
   return (
     <section className="mt-sidebarHeight h-screen overflow-hidden bg-content">
@@ -36,7 +38,7 @@ const Ranking = () => {
                         className={({ selected }) => {
                           return cn(
                             'flex h-6 w-20 items-center justify-center rounded-full border border-slate-100/10 font-medium',
-                            selected && active,
+                            selected && active
                           );
                         }}
                       >
@@ -50,14 +52,8 @@ const Ranking = () => {
             <Tab.Panels>
               {lists?.map((list, index) => {
                 return (
-                  <Tab.Panel
-                    key={index}
-                    className={cn('py-4')}
-                  >
-                    <ListSongs
-                      data={list}
-                      className="w-full"
-                    />
+                  <Tab.Panel key={index} className={cn('py-4')}>
+                    <ListSongs data={list} className="w-full" />
                   </Tab.Panel>
                 );
               })}

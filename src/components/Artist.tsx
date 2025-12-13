@@ -16,7 +16,9 @@ const Artist: React.FC<ArtistProps> = ({ singer, disabled }) => {
   return (
     <span className="w-fit text-xs text-contentDesc hover:underline">
       {disabled || (width && width < 768) ? (
-        <div className="w-fit cursor-not-allowed hover:no-underline focus:outline-none">{singer}</div>
+        <div className="w-fit cursor-not-allowed hover:no-underline focus:outline-none">
+          {singer}
+        </div>
       ) : (
         <ArtistModal singer={newSinger}> {singer}</ArtistModal>
       )}

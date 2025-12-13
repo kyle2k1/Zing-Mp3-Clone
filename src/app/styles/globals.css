@@ -78,3 +78,41 @@ input[type="range"]::-webkit-slider-thumb:hover {
 div > .bg-vip {
   background-image: linear-gradient(117deg, #5a4be7, #c86dd7 102%);
 }
+
+/* ============================================
+   Loader Animations
+   ============================================ */
+
+/* Three Body Loader - Used in InfinitePage component */
+@keyframes spin78236 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wobble1 {
+  0%,
+  100% {
+    transform: translateY(0%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-66%) scale(0.65);
+    opacity: 0.8;
+  }
+}
+
+@keyframes wobble2 {
+  0%,
+  100% {
+    transform: translateY(0%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(66%) scale(0.65);
+    opacity: 0.8;
+  }
+}

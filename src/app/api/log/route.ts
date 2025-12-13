@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     logger.transferToStore({
       level,
       message,
-      context,
+      context
     });
 
     return NextResponse.json({ success: true });
@@ -28,4 +28,3 @@ export async function POST(request: Request) {
     return new NextResponse('Internal Error', { status: 500 });
   }
 }
-

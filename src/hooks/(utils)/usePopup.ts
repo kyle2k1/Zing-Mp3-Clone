@@ -12,7 +12,7 @@ const usePopup = () => {
       clearTimeout(enterTimeoutRef.current);
       enterTimeoutRef.current = undefined;
     }
-    
+
     leaveTimeoutRef.current = setTimeout(() => {
       if (open) {
         close();
@@ -20,13 +20,13 @@ const usePopup = () => {
       leaveTimeoutRef.current = undefined;
     }, timeoutDurationLeave);
   };
-  
+
   const onOpen = (open: boolean) => {
     if (leaveTimeoutRef.current) {
       clearTimeout(leaveTimeoutRef.current);
       leaveTimeoutRef.current = undefined;
     }
-    
+
     enterTimeoutRef.current = setTimeout(() => {
       if (!open && buttonRef.current) {
         buttonRef.current.click();
@@ -34,7 +34,7 @@ const usePopup = () => {
       enterTimeoutRef.current = undefined;
     }, timeoutDurationOpen);
   };
-  
+
   return { buttonRef, onClose, onOpen };
 };
 

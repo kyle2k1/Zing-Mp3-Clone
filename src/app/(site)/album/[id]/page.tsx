@@ -1,7 +1,7 @@
 import Album from './Album';
 
 export const metadata = {
-  title: 'Album | Xem bài hát, album, MV đang hot nhất hiện tại',
+  title: 'Album | Xem bài hát, album, MV đang hot nhất hiện tại'
 };
 
 const Home = async ({ params }: { params: Promise<{ id: string }> }) => {

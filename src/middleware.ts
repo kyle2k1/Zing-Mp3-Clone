@@ -10,13 +10,13 @@ export async function middleware(req: NextRequest) {
       // NextAuth v4: Explicitly pass cookieName to match the configured cookie name
       // The cookie name is set in authOptions.cookies.sessionToken.name
       const cookieName = 'next-auth.session-token';
-      
-      const token = await getToken({ 
+
+      const token = await getToken({
         req,
         secret: nextauth.secret,
-        cookieName,
+        cookieName
       });
-      
+
       // Redirect unauthenticated users from /mymusic routes
       if (!token) {
         const url = req.nextUrl.clone();
@@ -34,5 +34,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/mymusic/uploaded/:path*'],
+  matcher: ['/mymusic/uploaded/:path*']
 };

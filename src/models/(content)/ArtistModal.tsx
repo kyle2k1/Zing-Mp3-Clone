@@ -58,10 +58,7 @@ const LoadingUI = () => {
         <div className="h-4 w-20 animate-pulse rounded bg-gray-600" />
         <div className="flex gap-3">
           {Array.from({ length: 3 }).map((_, index) => (
-            <div
-              className="w-16"
-              key={index}
-            >
+            <div className="w-16" key={index}>
               <div className="h-16 w-16 animate-pulse rounded-md bg-gray-600" />
               <div className="mt-1 h-3 w-full animate-pulse rounded bg-gray-600" />
               <div className="mt-1 h-3 w-3/4 animate-pulse rounded bg-gray-600" />
@@ -81,7 +78,7 @@ const ArtistModal = ({ children, singer }: ArtistPopupProps) => {
   const size = useWindowSize();
   const [position, setPosition] = useState<PositionProps>({
     height: 0,
-    width: 0,
+    width: 0
   });
   const className = getPosition(position);
   const [shouldFetch, setShouldFetch] = useState(false);
@@ -189,17 +186,18 @@ const ArtistModal = ({ children, singer }: ArtistPopupProps) => {
                             </div>
                             <div className="flex flex-col gap-1">
                               <span className="text-xds font-bold text-white">{singer}</span>
-                              <span className="text-xx text-contentDesc">{artist?.[0]?.favorites || '(Empty)'}</span>
+                              <span className="text-xx text-contentDesc">
+                                {artist?.[0]?.favorites || '(Empty)'}
+                              </span>
                             </div>
                           </div>
                           <div className="flex items-center">
                             <div className="flex h-6 w-28 cursor-not-allowed items-center justify-center rounded-full bg-login px-2 py-1.5 text-white hover:opacity-80">
                               <div className="flex items-center gap-1">
-                                <AiOutlineUserAdd
-                                  size={17}
-                                  className="font-medium"
-                                />
-                                <span className="text-xx font-normal leading-6 tracking-wider">QUAN TÂM</span>
+                                <AiOutlineUserAdd size={17} className="font-medium" />
+                                <span className="text-xx font-normal leading-6 tracking-wider">
+                                  QUAN TÂM
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -210,7 +208,7 @@ const ArtistModal = ({ children, singer }: ArtistPopupProps) => {
                             {truncate(description, {
                               length: 100,
                               separator: ' ',
-                              omission: '...Xem thêm',
+                              omission: '...Xem thêm'
                             })}
                           </p>
                         </div>
@@ -220,10 +218,7 @@ const ArtistModal = ({ children, singer }: ArtistPopupProps) => {
                           <div className="flex gap-3">
                             {artist ? (
                               artist?.slice(0, artist?.length).map((song, _index) => (
-                                <div
-                                  className="w-16"
-                                  key={song.link}
-                                >
+                                <div className="w-16" key={song.link}>
                                   <Card
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -238,7 +233,9 @@ const ArtistModal = ({ children, singer }: ArtistPopupProps) => {
                                     image={song.image}
                                     className="h-16 w-16"
                                   />
-                                  <h2 className="line-clamp-2 text-xx leading-3 text-white">{song.songName}</h2>
+                                  <h2 className="line-clamp-2 text-xx leading-3 text-white">
+                                    {song.songName}
+                                  </h2>
                                 </div>
                               ))
                             ) : (

@@ -21,7 +21,11 @@ interface ContentProps {
   songsData: Song[] | undefined;
 }
 
-const Content = ({ className, thumbnails, songsData }: ContentProps & { songsData: Song[] | undefined }) => {
+const Content = ({
+  className,
+  thumbnails,
+  songsData
+}: ContentProps & { songsData: Song[] | undefined }) => {
   const { showPlayer, setShowPlayer, setPlaying, setPlaylist } = usePlayer();
   const router = useRouter();
   const { setNavigation } = useNavigation();
@@ -36,7 +40,7 @@ const Content = ({ className, thumbnails, songsData }: ContentProps & { songsDat
               if (songsData) {
                 const albumData: List = {
                   data: songsData,
-                  thumbnails: thumbnail,
+                  thumbnails: thumbnail
                 };
                 queryClient.setQueryData<List>(favorite.favorite(index + 1), albumData);
               }
@@ -74,7 +78,7 @@ const Suggestion = ({ songs, category }: { songs: Song[]; category: string }) =>
   const { data } = useSong({
     key: favorite.favorites(),
     type: category,
-    initialData: songs,
+    initialData: songs
   });
   // Use data from React Query, fallback to songs prop if data is not ready yet
   const songsData = data || songs;
@@ -84,7 +88,7 @@ const Suggestion = ({ songs, category }: { songs: Song[]; category: string }) =>
       title: song.songName,
       singers: song.singers,
       song: song,
-      favorites: song.favorites,
+      favorites: song.favorites
     };
   });
   return (
@@ -92,11 +96,7 @@ const Suggestion = ({ songs, category }: { songs: Song[]; category: string }) =>
       <div className="flex justify-between">
         <h2 className="text-lg font-bold text-white">Có thể bạn muốn nghe</h2>
       </div>
-      <Content
-        className={className}
-        songsData={songsData}
-        thumbnails={thumbnails}
-      />
+      <Content className={className} songsData={songsData} thumbnails={thumbnails} />
     </div>
   );
 };

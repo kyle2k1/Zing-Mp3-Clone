@@ -118,7 +118,7 @@ export const authOptions: AuthOptions = {
     }
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, account }) {
       // For OAuth providers, ensure email is provided
       if (account && (account.provider === 'google' || account.provider === 'github')) {
         if (!user?.email) {
@@ -177,7 +177,7 @@ export const authOptions: AuthOptions = {
       }
       return session;
     }
-  },
+  }
 };
 
 const handler = NextAuth(authOptions);

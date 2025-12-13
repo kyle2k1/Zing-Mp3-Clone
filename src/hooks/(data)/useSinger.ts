@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getSinger } from '@/actions/getSinger';
 import { artist } from '@/store/queryKeys';
 
-const useSinger = (name: string,enabled: boolean = true) => {
+const useSinger = (name: string, enabled = true) => {
   const trimmedName = name.trim();
   const queryKey = artist.artist(trimmedName);
 

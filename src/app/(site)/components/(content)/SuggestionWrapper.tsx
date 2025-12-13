@@ -9,12 +9,7 @@ const SuggestionWrapper = async () => {
     return null;
   }
 
-  return (
-    <Suggestion
-      songs={songs}
-      category={randomType}
-    />
-  );
+  return <Suggestion songs={songs} category={randomType} />;
 };
 
 export default SuggestionWrapper;

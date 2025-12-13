@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { usePathname } from 'next/navigation';
-import { User } from '@prisma/client';
 import logger from '@/libs/logger';
+import { User } from '@prisma/client';
+import { usePathname } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 
 interface AccessTrackerProps {
   currentUser?: User | null;
@@ -28,7 +28,7 @@ const AccessTracker = ({ currentUser }: AccessTrackerProps) => {
     fetch('/api/log', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         level: 'info',
@@ -45,11 +45,11 @@ const AccessTracker = ({ currentUser }: AccessTrackerProps) => {
                 id: currentUser.id,
                 email: currentUser.email,
                 username: currentUser.username,
-                name: currentUser.name,
+                name: currentUser.name
               }
-            : null,
-        },
-      }),
+            : null
+        }
+      })
     }).catch((error) => {
       // Silently fail - don't break the app if logging fails
       logger.error(`Failed to log access: ${error}`);

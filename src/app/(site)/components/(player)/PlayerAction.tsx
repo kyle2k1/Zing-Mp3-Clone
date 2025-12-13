@@ -9,8 +9,8 @@ import Play from '@/components/Play';
 import getDuration from '@/helpers/getDuration';
 import useFrame from '@/hooks/(player)/useFrame';
 import usePlayer from '@/hooks/(player)/usePlayer';
-import logger from '@/libs/logger';
 import useVolume from '@/hooks/(player)/useVolume';
+import logger from '@/libs/logger';
 import { cn } from '@/libs/utils';
 
 interface OptionsProps {
@@ -26,33 +26,33 @@ const options = ({ onPrev, onNext, onPlay, onRepeat, onRandom }: OptionsProps) =
     icon: LiaRandomSolid,
     label: 'random',
     onClick: onRandom,
-    size: 22,
+    size: 22
   },
   {
     icon: BsFillSkipStartFill,
     label: 'prev',
     onClick: onPrev,
-    size: 25,
+    size: 25
   },
   {
     icon: LiaRandomSolid,
     play: Play,
     label: 'play',
     onClick: onPlay,
-    size: 27,
+    size: 27
   },
   {
     icon: BsFillSkipEndFill,
     label: 'next',
     onClick: onNext,
-    size: 25,
+    size: 25
   },
   {
     icon: BsRepeat,
     label: 'repeat',
     onClick: onRepeat,
-    size: 22,
-  },
+    size: 22
+  }
 ];
 
 const PlayerAction = () => {
@@ -69,7 +69,7 @@ const PlayerAction = () => {
     setPrev,
     setNext,
     setRepeat,
-    setRandom,
+    setRandom
   } = usePlayer();
   const { volume, mute, change } = useVolume();
   const { showFrame } = useFrame();
@@ -162,7 +162,7 @@ const PlayerAction = () => {
     onNext,
     onPlay,
     onRepeat,
-    onRandom,
+    onRandom
   });
   return (
     <div className="col-span-3 flex h-20 flex-col justify-center py-3 sm:col-span-1">
@@ -182,7 +182,7 @@ const PlayerAction = () => {
                 btnPlay={{
                   circle: true,
                   size: action.size,
-                  isPlay: isPlaying && !isLoad,
+                  isPlay: isPlaying && !isLoad
                 }}
                 className="hover:border-textPrimary hover:bg-transparent"
               />
@@ -193,7 +193,7 @@ const PlayerAction = () => {
               className={cn(
                 action.label === 'repeat' && typeRepeat !== 0 && 'text-textPrimary',
                 action.label === 'random' && isRandom && 'text-textPrimary',
-                'relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-full hover:bg-playerFocus',
+                'relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-full hover:bg-playerFocus'
               )}
               onClick={(e) => {
                 e.stopPropagation();
@@ -205,7 +205,9 @@ const PlayerAction = () => {
                 title={action.label.charAt(0).toUpperCase() + action.label.slice(1)}
               />
               {action.label === 'repeat' && typeRepeat === 1 && (
-                <span className="absolute flex w-full items-center justify-center text-[8px]">1</span>
+                <span className="absolute flex w-full items-center justify-center text-[8px]">
+                  1
+                </span>
               )}
             </div>
           );

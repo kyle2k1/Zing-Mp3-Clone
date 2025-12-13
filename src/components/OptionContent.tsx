@@ -11,18 +11,25 @@ interface OptionContentProps {
   like?: string | number;
   size?: number;
   className?: string;
+  parentClassName?: string;
   song?: Song;
 }
-const OptionContent: React.FC<OptionContentProps> = ({ image, like, size, className, song }) => {
+const OptionContent: React.FC<OptionContentProps> = ({
+  image,
+  like,
+  size,
+  className,
+  parentClassName,
+  song
+}) => {
   return (
-    <div>
+    <div className={parentClassName}>
       <RankingModal image={image} like={like} song={song}>
         <div
           className={cn(
             'h flex h-9 w-9 cursor-pointer items-center justify-center rounded-full font-medium'
           )}
         >
-          {' '}
           <Options size={size || 16} className={className} />{' '}
         </div>
       </RankingModal>
