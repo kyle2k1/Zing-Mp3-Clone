@@ -5,13 +5,7 @@ import { Fragment, useState } from 'react';
 import { IconType } from 'react-icons';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { IoAdd } from 'react-icons/io5';
-import {
-  RiAddCircleLine,
-  RiLinksLine,
-  RiPlayListAddLine,
-  RiPlayListFill,
-  RiShareForwardLine
-} from 'react-icons/ri';
+import { RiAddCircleLine, RiLinksLine, RiPlayListAddLine, RiPlayListFill, RiShareForwardLine } from 'react-icons/ri';
 
 import getPosition from '@/helpers/getPosition';
 import useWindowSize from '@/hooks/(utils)/useWindowSize';
@@ -25,28 +19,28 @@ interface PositionProps {
 const getOptions = () => [
   {
     icon: AiOutlineHeart,
-    label: 'Playlist'
+    label: 'Playlist',
   },
   {
     icon: RiPlayListAddLine,
-    label: 'Playlist'
+    label: 'Playlist',
   },
   {
     icon: RiPlayListFill,
-    label: 'Playlist'
+    label: 'Playlist',
   },
   {
     icon: RiAddCircleLine,
-    label: 'Playlist'
+    label: 'Playlist',
   },
   {
     icon: RiLinksLine,
-    label: 'Playlist'
+    label: 'Playlist',
   },
   {
     icon: RiShareForwardLine,
-    label: 'Playlist'
-  }
+    label: 'Playlist',
+  },
 ];
 
 export interface PlaylistModalProps {
@@ -65,7 +59,7 @@ const PlaylistModal = ({ children }: PlaylistModalProps) => {
   const size = useWindowSize();
   const [position, setPosition] = useState<PositionProps>({
     height: 0,
-    width: 0
+    width: 0,
   });
   const className = getPosition(position);
 
@@ -95,11 +89,7 @@ const PlaylistModal = ({ children }: PlaylistModalProps) => {
           >
             <Popover.Panel
               static
-              className={cn(
-                'absolute z-10 w-48 rounded-md bg-searchFocus',
-                className && className,
-                'px-[-4px]'
-              )}
+              className={cn('absolute z-10 w-48 rounded-md bg-searchFocus', className && className, 'px-[-4px]')}
               onMouseLeave={() => close()}
             >
               <div className="flex flex-col justify-center gap-1 py-1">
@@ -120,8 +110,8 @@ const PlaylistModal = ({ children }: PlaylistModalProps) => {
                       <IoAdd size={16} />
                     </div>
                     <span className="text-xds">Tạo playlist mới</span>
+                    Hello
                   </div>
-
                   {options.map((option) => (
                     <div
                       key={option.label}
