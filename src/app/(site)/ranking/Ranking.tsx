@@ -1,23 +1,24 @@
 'use client';
 
 import { Tab } from '@headlessui/react';
-import { useQueryClient } from '@tanstack/react-query';
 
 import { categories } from '@/app/(site)/components/(content)/NewRelease';
 import ListSongs from '@/components/ListSongs';
+import { typeMusic } from '@/constants/music';
+import useSong from '@/hooks/(data)/useSong';
 import { cn } from '@/libs/utils';
 import { ranking } from '@/store/queryKeys';
-import { Song } from '@/types/types';
 
 const Ranking = () => {
   const active = 'bg-login focus:outline-none';
 
-  const queryClient = useQueryClient();
-  const data = queryClient.getQueryData<Song[]>(ranking.rankings());
-  let lists;
-  if (data) {
-    lists = Array.from({ length: 3 }).map((_, idx) => data.slice(idx * 8, idx * 8 + 8));
-  }
+  const randomType = typeMusic[Math.round(Math.random() * 3)];
+  const { data } = useSong({
+    key: ranking.rankings(),
+    type: randomType,
+    limit: 24,
+  });
+  const lists = data ? Array.from({ length: 3 }).map((_, idx) => data.slice(idx * 8, idx * 8 + 8)) : undefined;
 
   return (
     <section className="mt-sidebarHeight h-screen overflow-hidden bg-content">
@@ -35,7 +36,7 @@ const Ranking = () => {
                         className={({ selected }) => {
                           return cn(
                             'flex h-6 w-20 items-center justify-center rounded-full border border-slate-100/10 font-medium',
-                            selected && active
+                            selected && active,
                           );
                         }}
                       >
@@ -49,8 +50,14 @@ const Ranking = () => {
             <Tab.Panels>
               {lists?.map((list, index) => {
                 return (
-                  <Tab.Panel key={index} className={cn('py-4')}>
-                    <ListSongs data={list} className="w-full" />
+                  <Tab.Panel
+                    key={index}
+                    className={cn('py-4')}
+                  >
+                    <ListSongs
+                      data={list}
+                      className="w-full"
+                    />
                   </Tab.Panel>
                 );
               })}

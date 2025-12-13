@@ -26,7 +26,6 @@ const Content = ({ className, thumbnails, songsData }: ContentProps & { songsDat
   const router = useRouter();
   const { setNavigation } = useNavigation();
   const queryClient = useQueryClient();
-
   return (
     <div className={cn(className)}>
       {thumbnails?.map((thumbnail, index) => (
@@ -56,7 +55,7 @@ const Content = ({ className, thumbnails, songsData }: ContentProps & { songsDat
             {thumbnail.singers?.map((singer, idx) => (
               <Artist
                 key={`${idx}@${singer}`}
-                singer={idx === thumbnail.singers.length - 1 ? `${singer}...` : `${singer},`}
+                singer={idx === thumbnail.singers.length - 1 ? singer : `${singer},`}
               />
             ))}
           </div>
